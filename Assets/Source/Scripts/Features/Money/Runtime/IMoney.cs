@@ -6,4 +6,5 @@ public interface IMoney
     bool SpendMoney(int value);
     void AddMoney(int value);
     Action<int> OnChanged { get; set; }
+    Action OnSpended { get; set; }
 }
