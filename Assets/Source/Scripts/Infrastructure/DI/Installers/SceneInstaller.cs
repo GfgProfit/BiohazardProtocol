@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[DefaultExecutionOrder(-10000)]
+[DefaultExecutionOrder(-1000)]
 public abstract class SceneInstaller : MonoBehaviour
 {
     [Header("Auto-inject scene on Awake")]

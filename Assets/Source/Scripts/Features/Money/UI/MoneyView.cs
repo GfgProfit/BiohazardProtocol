@@ -7,8 +7,7 @@ public class MoneyView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _moneyText;
 
-    [Inject]
-    private IMoney _moneyService;
+    [Inject] private IMoney _moneyService;
 
     private void Start()
     {

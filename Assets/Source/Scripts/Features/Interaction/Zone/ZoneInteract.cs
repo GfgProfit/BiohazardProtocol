@@ -13,8 +13,7 @@ public class ZoneInteract : MonoBehaviour, IInteractable
     public string Text { get => _zoneName; set { } }
     public int Money { get => _money; set { } }
 
-    [Inject]
-    private IMoney _moneyService;
+    [Inject] private IMoney _moneyService;
 
     public void Interact()
     {

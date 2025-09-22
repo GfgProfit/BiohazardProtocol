@@ -1,4 +1,3 @@
-using Compass;
 using DG.Tweening;
 using UnityEngine;
 

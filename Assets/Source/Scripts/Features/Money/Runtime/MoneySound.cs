@@ -9,8 +9,7 @@ public class MoneySound : MonoBehaviour
     [Space]
     [SerializeField] private AudioClip _moneySpendedClip;
 
-    [Inject]
-    private IMoney _moneyService;
+    [Inject] private IMoney _moneyService;
 
     private void OnEnable()
     {
