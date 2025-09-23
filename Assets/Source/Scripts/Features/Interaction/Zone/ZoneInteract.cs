@@ -5,6 +5,7 @@ using UnityEngine;
 public class ZoneInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private ZoneObject _zoneObject;
+    [SerializeField] private ZoneGate _zoneGate;
 
     [Space]
     [SerializeField] private string _zoneName;
@@ -19,11 +20,25 @@ public class ZoneInteract : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        bool spended = _moneyService.SpendMoney(Money);
-
-        if (spended)
+        if (_zoneGate != null && !_zoneGate.CanUnlock())
         {
-            _zoneObject.Interact();
+            return;
+        }
+
+        if (!_moneyService.SpendMoney(Money))
+        {
+            return;
+        }
+
+        _zoneObject?.Interact();
+
+        if (_zoneGate != null)
+        {
+            bool opened = _zoneGate.Unlock();
+            if (!opened)
+            {
+                Debug.LogWarning("Unlock() вернул false — странно, раз CanUnlock был true. Проверь конфиг.");
+            }
         }
     }
 }

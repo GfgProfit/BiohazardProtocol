@@ -17,13 +17,10 @@ public sealed class NachtDerUntotenSceneInstaller : SceneInstaller
     {
         container.BindInstance(_compass).AsSingle();
         container.BindInstance(_weaponManager).AsSingle();
-
+        container.Bind<IZoneService>(_ => new ZoneService()).AsSingle();
         container.Bind<IMoney>(_ => new MoneyManager(1000000)).AsSingle();
-
         container.Bind(_ => new WaveService()).AsSingle();
-
         container.Bind(c => new HealthModel(c.Resolve<WaveService>().CurrentBaseHP)).AsTransient();
-
         container.BindComponentPool(_zombiePrefab, _preload, maxSize: 50, _poolRoot);
     }
 }

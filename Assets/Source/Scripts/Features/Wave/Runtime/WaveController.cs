@@ -1,11 +1,13 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 #pragma warning disable IDE0044
 
 public sealed class WaveController : MonoBehaviour
 {
-    [SerializeField] private Transform[] _spawnPoints;
+    [SerializeField] private WaveSpawnData[] _waveSpawnDatas;
 
     [Space]
     [SerializeField] private WaveStartAnimations _newWaveAnimations;
@@ -17,6 +19,7 @@ public sealed class WaveController : MonoBehaviour
 
     [Inject] private WaveService _waveService;
     [Inject] private IPool<Zombie> _pool;
+    [Inject] private IZoneService _zones;
 
     private int _spawnedThisWave;
     private int _aliveZombies;
@@ -50,7 +53,31 @@ public sealed class WaveController : MonoBehaviour
     {
         while (_spawnedThisWave < _maxZombiesInWave)
         {
-            SpawnOne();
+            List<WaveSpawnData> allowed = GetAllowedSpawns();
+
+            if (allowed.Count == 0)
+            {
+                bool resumed = false;
+                void OnOpened(string _) => resumed = true;
+
+                _zones.ZoneOpened += OnOpened;
+
+                while (!resumed && GetAllowedSpawns().Count == 0)
+                {
+                    yield return null;
+                }
+
+                _zones.ZoneOpened -= OnOpened;
+
+                allowed = GetAllowedSpawns();
+                if (allowed.Count == 0)
+                {
+                    yield return null;
+                }
+            }
+
+            SpawnOne(allowed);
+
             yield return new WaitForSeconds(_spawnCooldown);
         }
 
@@ -64,26 +91,34 @@ public sealed class WaveController : MonoBehaviour
         _countdownTimerView.StartInAnimation();
 
         float countdown = 15f;
-        
+
         while (countdown > 0f)
         {
             countdown -= Time.deltaTime;
             _countdownTimerView.UpdateText(countdown);
+
             yield return null;
         }
 
         _countdownTimerView.StartOutAnimation();
-
         StartNextWave();
     }
 
-    private void SpawnOne()
+    private List<WaveSpawnData> GetAllowedSpawns()
     {
+        return _waveSpawnDatas.Where(sd => _zones.IsOpen(sd.RequiredZoneKey)).ToList();
+    }
+
+    private void SpawnOne(List<WaveSpawnData> allowed)
+    {
+        var data = allowed[Random.Range(0, allowed.Count)];
+
         Zombie zombie = _pool.Get();
-        Transform randomPoint = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
-        
-        zombie.SetSpawnPoint(randomPoint);
+        zombie.SetSpawnPoint(data.SpawnPoint);
+
         zombie.Died += OnZombieDeath;
+        zombie.SetTarget(data.PointToBarricade);
+        zombie.SetDestinationToTarget();
 
         _spawnedThisWave++;
         _aliveZombies++;
@@ -92,7 +127,6 @@ public sealed class WaveController : MonoBehaviour
     private void OnZombieDeath(Zombie zombie)
     {
         zombie.Died -= OnZombieDeath;
-
         _aliveZombies--;
     }
 
@@ -116,24 +150,46 @@ public sealed class WaveController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_spawnPoints != null && _spawnPoints.Length > 0)
+        if (_waveSpawnDatas == null || _waveSpawnDatas.Length == 0)
         {
-            for (int i = 0; i < _spawnPoints.Length; i++)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(_spawnPoints[i].position, 1.0f);
+            return;
+        }
 
-                Gizmos.color = Color.white;
-                Gizmos.DrawSphere(_spawnPoints[i].position, 0.1f);
+        for (int i = 0; i < _waveSpawnDatas.Length; i++)
+        {
+            WaveSpawnData spawnData = _waveSpawnDatas[i];
+            bool canSpawn = Application.isPlaying && _zones != null ? _zones.IsOpen(spawnData.RequiredZoneKey) : string.IsNullOrEmpty(spawnData.RequiredZoneKey);
 
-                Gizmos.color = Color.blue;
-                Vector3 start = _spawnPoints[i].position;
-                Vector3 end = start + _spawnPoints[i].forward * 2.0f;
-                Gizmos.DrawLine(start, end);
+            Color main = canSpawn ? Color.red : new Color(0.5f, 0.5f, 0.5f, 0.5f);
+            Color dir = canSpawn ? Color.blue : new Color(0.5f, 0.5f, 0.5f, 0.35f);
 
-                Gizmos.DrawWireSphere(end, 0.1f);
+            Gizmos.color = main;
+            Gizmos.DrawWireSphere(spawnData.SpawnPoint.position, 1.0f);
 
-            }
+            Gizmos.color = Color.white;
+            Gizmos.DrawSphere(spawnData.SpawnPoint.position, 0.1f);
+
+            Gizmos.color = dir;
+            Vector3 start = spawnData.SpawnPoint.position;
+            Vector3 end = start + spawnData.SpawnPoint.forward * 2.0f;
+            Gizmos.DrawLine(start, end);
+            Gizmos.DrawWireSphere(end, 0.1f);
+        }
+
+        for (int i = 0; i < _waveSpawnDatas.Length; i++)
+        {
+            var d = _waveSpawnDatas[i];
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(d.PointToBarricade.position, 1.0f);
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawSphere(d.PointToBarricade.position, 0.1f);
+
+            Gizmos.color = Color.yellow;
+            Vector3 start = d.PointToBarricade.position;
+            Vector3 end = start + d.PointToBarricade.forward * 2.0f;
+            Gizmos.DrawLine(start, end);
+            Gizmos.DrawWireSphere(end, 0.1f);
         }
     }
 }

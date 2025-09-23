@@ -1012,8 +1012,8 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 0
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1.9
@@ -1056,8 +1056,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshes:
-  - {fileID: 4748369960118431866}
-  - {fileID: 5121263201297401710}
+  - {fileID: 1232320189799598999}
+  - {fileID: 8458786753805478793}
+  _materials:
+  - {fileID: 2100000, guid: 5545c89bb0a75004bbe217d139a97e89, type: 2}
+  - {fileID: 2100000, guid: a7617607466826e4cb2d99cd90200ebd, type: 2}
+  - {fileID: 2100000, guid: 7f2790332154c79459a9115b8faf30dd, type: 2}
 --- !u!114 &7091130684531584875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1072,6 +1076,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthView: {fileID: 1929034273788566175}
   _agent: {fileID: 9063764780219501546}
+  _animator: {fileID: 5215136475916788508}
+  _walkSpeed: 1.8
+  _sprintSpeed: 3
 --- !u!114 &1929034273788566175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2785,7 +2792,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 2.149}
+  m_AnchoredPosition: {x: 0, y: 2.001}
   m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3497999186638022035
