@@ -1,3 +1,5 @@
+using DG.Tweening;
+using EPOOutline;
 using TMPro;
 using UnityEngine;
 
@@ -10,6 +12,7 @@ public class InteractDetector : MonoBehaviour
 
     [Header("UI Prompt")]
     [SerializeField] private CanvasGroup _promptGroup;
+    [SerializeField] private RectTransform _promptTransform;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private float _fadeSpeed = 12f;
 
@@ -17,6 +20,7 @@ public class InteractDetector : MonoBehaviour
     [SerializeField] private KeyCode _interactKey = KeyCode.F;
 
     private IInteractable _currentTarget;
+    private IInteractable _previousTarget;
     private float _targetAlpha = 0f;
 
     private void Awake()
@@ -27,9 +31,7 @@ public class InteractDetector : MonoBehaviour
 
     private void Update()
     {
-        Ray ray = _camera != null
-            ? _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f))
-            : new Ray(transform.position, transform.forward);
+        Ray ray = _camera != null ? _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)) : new Ray(transform.position, transform.forward);
 
         _currentTarget = null;
 
@@ -37,8 +39,18 @@ public class InteractDetector : MonoBehaviour
         {
             if (TryGetInteractable(hit.collider, out IInteractable interactable))
             {
-                _currentTarget = interactable;
+                if (interactable.CanInteract)
+                {
+                    _currentTarget = interactable;
+                }
             }
+        }
+
+        if (_currentTarget != _previousTarget)
+        {
+            ToggleOutline(_previousTarget, false);
+            ToggleOutline(_currentTarget, true);
+            _previousTarget = _currentTarget;
         }
 
         _targetAlpha = _currentTarget != null ? 1f : 0f;
@@ -47,20 +59,26 @@ public class InteractDetector : MonoBehaviour
         {
             _promptGroup.alpha = Mathf.MoveTowards(_promptGroup.alpha, _targetAlpha, _fadeSpeed * Time.deltaTime);
             _promptGroup.interactable = _promptGroup.blocksRaycasts = (_promptGroup.alpha > 0.99f);
-            
+
             if (_currentTarget != null)
             {
-                string text = string.Format($"{_currentTarget.Text}", $"<color=#FFD800>$:</color> {_currentTarget.Money}");
+                string text = string.Format($"{_currentTarget.Text}", $"<color=#FFD800>$:</color> {Utils.FormatNumber(_currentTarget.Money, '.')}");
                 _text.text = text;
-                _text.ForceMeshUpdate();
-                Canvas.ForceUpdateCanvases();
             }
         }
 
         if (_currentTarget != null && Input.GetKeyDown(_interactKey))
         {
             _currentTarget.Interact();
+            AnimatePingPongPopUp(_promptTransform, new Vector3(0.9f, 0.9f, 0.9f), Vector3.one, 0.1f);
         }
+    }
+
+    private void AnimatePingPongPopUp(RectTransform rectTransform, Vector3 from, Vector3 to, float halfDuration)
+    {
+        rectTransform.DOScale(from, halfDuration)
+               .OnComplete(() => rectTransform.DOScale(to, halfDuration))
+               .SetEase(Ease.OutBack);
     }
 
     private bool TryGetInteractable(Collider col, out IInteractable interactable)
@@ -77,5 +95,24 @@ public class InteractDetector : MonoBehaviour
 
         interactable = col.GetComponentInChildren<IInteractable>();
         return interactable != null;
+    }
+
+    // универсальное включение/выключение Outline
+    private void ToggleOutline(IInteractable target, bool enable)
+    {
+        if (target == null) return;
+
+        // ищем Outline на том же объекте, что и IInteractable
+        var mono = target as MonoBehaviour;
+        if (mono == null) return;
+
+        Outlinable outline = mono.GetComponent<Outlinable>();
+        if (outline == null)
+        {
+            outline = mono.GetComponentInChildren<Outlinable>();
+        }
+
+        if (outline != null)
+            outline.enabled = enable;
     }
 }

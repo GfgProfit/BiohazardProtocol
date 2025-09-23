@@ -36,6 +36,8 @@ public sealed class DiContainer : IContainer
             IsExternInstance = true
         };
         AddBinding(binding);
+        Inject(instance);
+
         return new BindingBuilder(binding);
     }
 

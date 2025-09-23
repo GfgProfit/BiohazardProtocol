@@ -8,6 +8,11 @@ public sealed class WaveController : MonoBehaviour
     [SerializeField] private Transform[] _spawnPoints;
 
     [Space]
+    [SerializeField] private WaveStartAnimations _newWaveAnimations;
+    [SerializeField] private WaveClearedAnimations _clearedWaveAnimations;
+    [SerializeField] private WaveCountdownTimerView _countdownTimerView;
+
+    [Space]
     [SerializeField] private float _spawnCooldown = 0.5f;
 
     [Inject] private WaveService _waveService;
@@ -37,9 +42,8 @@ public sealed class WaveController : MonoBehaviour
 
         _maxZombiesInWave = Mathf.Min(50, 8 + _waveService.WaveIndex * 2);
 
-        Debug.Log($"Next Wave - {_waveService.WaveIndex}; Zombies - {_maxZombiesInWave}; Health - {_waveService.CurrentBaseHP};");
-
         _spawnRoutine = StartCoroutine(SpawnZombies());
+        StartCoroutine(PlayInOutNewWaveAnimation());
     }
 
     private IEnumerator SpawnZombies()
@@ -55,8 +59,20 @@ public sealed class WaveController : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("Waiting 3 seconds to start next wave.");
-        yield return new WaitForSeconds(3);
+        yield return PlayInOutWaveClearedAnimation();
+
+        _countdownTimerView.StartInAnimation();
+
+        float countdown = 15f;
+        
+        while (countdown > 0f)
+        {
+            countdown -= Time.deltaTime;
+            _countdownTimerView.UpdateText(countdown);
+            yield return null;
+        }
+
+        _countdownTimerView.StartOutAnimation();
 
         StartNextWave();
     }
@@ -78,6 +94,24 @@ public sealed class WaveController : MonoBehaviour
         zombie.Died -= OnZombieDeath;
 
         _aliveZombies--;
+    }
+
+    private IEnumerator PlayInOutNewWaveAnimation()
+    {
+        _newWaveAnimations.StartInAnimation();
+
+        yield return new WaitForSeconds(3.0f);
+
+        _newWaveAnimations.StartOutAnimation();
+    }
+
+    private IEnumerator PlayInOutWaveClearedAnimation()
+    {
+        _clearedWaveAnimations.StartInAnimation();
+
+        yield return new WaitForSeconds(3.0f);
+
+        _clearedWaveAnimations.StartOutAnimation();
     }
 
     private void OnDrawGizmos()

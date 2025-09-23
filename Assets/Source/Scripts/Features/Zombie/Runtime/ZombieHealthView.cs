@@ -41,7 +41,10 @@ public class ZombieHealthView : MonoBehaviour, ITargetable
             StopCoroutine(_fadeRoutine);
         }
 
-        _fadeRoutine = StartCoroutine(FadeRoutine(target));
+        if (isActiveAndEnabled)
+        {
+            _fadeRoutine = StartCoroutine(FadeRoutine(target));
+        }
     }
 
     private IEnumerator FadeRoutine(float target)

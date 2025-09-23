@@ -1,9 +1,39 @@
 fileFormatVersion: 2
-guid: a5456caea8dcdb74a91266731e5a087f
+guid: f05257fa9a5ead444bf2c76125fd1295
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_bare_hands_hand
+    second: {fileID: 2100000, guid: d5953c50254ec5a48a9e92b84da25483, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_novic_novic
+    second: {fileID: 2100000, guid: b5767087fd4e9bc42837b37ad4d3ee21, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: finish
+    second: {fileID: 2100000, guid: 181198693b54a2d4dade0dc755babf46, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: finish_bright
+    second: {fileID: 2100000, guid: 71dd9d6490e94fe408385986f99f5877, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: finish_secondary
+    second: {fileID: 2100000, guid: 7b8244bd14abc0344a77d50302a9fc3f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: polymer
+    second: {fileID: 2100000, guid: 27477ccd498b90d4bb1ba1f97641fa50, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

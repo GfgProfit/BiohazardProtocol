@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb636a7fc9331a74aa02bd074279aa7b, type: 3}
+  m_Name: MP5 Weapon Config
+  m_EditorClassIdentifier: 
+  _weaponName: MP5
+  _weaponIcon: {fileID: 21300000, guid: 51e2054183693cd4486eef5d9c57ddce, type: 3}
+  _fireMode: 1
+  _hitScanMask:
+    serializedVersion: 2
+    m_Bits: 755
+  _weaponDefaultPosition: {x: -0.0356, y: 0.0247, z: -0.0168}
+  _weaponAimingPosition: {x: 0, y: 0, z: 0}
+  _damage: 9
+  _fireRate: 700
+  _shotgunPellets: 8
+  _switchDelay: 0.5
+  _defaultFOV: 60
+  _aimingFOV: 40
+  _aimingSmooth: 10
+  _magSize: 30
+  _currentAmmo: 30
+  _availableAmmo: 120
+  _ammoBoxCount: 240
+  _shootName: Shoot
+  _aimShootName: Aim Shoot
+  _reloadBoolName: Reload
+  _reloadFullBoolName: Reload Full
+  _aimBoolName: Aim
+  _hideName: Hide
+  _reloadTime: 2.8
+  _reloadFullTime: 3.8
+  _emptyMagSound: {fileID: 8300000, guid: 663b3b6ee94948644b2c525346e4f2c7, type: 3}
+  _reloadSound: {fileID: 8300000, guid: e05cfcdd40213fb488d7f99fe41a40e4, type: 3}
+  _fullReloadSound: {fileID: 8300000, guid: 56e562d7477fd0f42885cb8f8891a43a, type: 3}
+  _equipSound: {fileID: 8300000, guid: a4be69ba1beca55468feb1dbd1293043, type: 3}
+  _hideSound: {fileID: 8300000, guid: b171b307084862d4ca462d0c17fbf10c, type: 3}
+  _shootSounds:
+  - {fileID: 8300000, guid: d1a5ca060a15032438cacfee751561fa, type: 3}
+  - {fileID: 8300000, guid: d53baabc5e5a9ab4b87c07f62b7de6a8, type: 3}
+  - {fileID: 8300000, guid: dbc22cf5dbb26e04883784a08781e579, type: 3}
+  - {fileID: 8300000, guid: 625daa3214b8def49a69cd24ff5b2387, type: 3}
+  - {fileID: 8300000, guid: 143859fdcf9f88842aa863631dda277e, type: 3}
+  - {fileID: 8300000, guid: 89f8e5dcf5e48c94da9e730ebbfb15a6, type: 3}
+  _enableMuzzle: 1
+  _muzzleScaleFactor: 0.07
+  _muzzleDestroyTime: 2
+  _muzzlePrefabs:
+  - {fileID: 124018, guid: 1f389bb139e76154582cf3c5e4f9214b, type: 3}
+  - {fileID: 146992, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
+  - {fileID: 153266, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
+  - {fileID: 160582, guid: 8ff371e17619a504b9822fc6a2facdb2, type: 3}
+  - {fileID: 183908, guid: fa6d29df930056640bf15fb9b6a54e4a, type: 3}
+  - {fileID: 110062, guid: 30902f8af10daa04cabd79e9ef258f08, type: 3}
+  - {fileID: 179846, guid: a7730127594a3ad46a512f70521a6446, type: 3}
+  - {fileID: 141106, guid: c69a6f3b834888c468f57ec885c39db3, type: 3}
+  - {fileID: 136518, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
+  - {fileID: 161002, guid: 489aba68c9dfe9342accb1f3a0be4e5b, type: 3}
+  _recoilPattern: {x: 3, y: 3, z: 2}
+  _recoilSnappiness: 12
+  _recoilReturnSpeed: 7
+  _applySpread: 1
+  _spreadVariance: {x: 0.05, y: 0.05, z: 0.05}
+  _bulletSpeed: 100
+  _widthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.35
+      inSlope: -0.0011128971
+      outSlope: -0.0011128971
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.4542262
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _duration: 0.1
+  _minVertexDistance: 0.1
+  _trailColor:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.54987025, b: 0, a: 1}
+    key1: {r: 1, g: 0.85065913, b: 0, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  _material: {fileID: 2100000, guid: 654a49237e1c29445848b8ec7050f82e, type: 2}
+  _bulletTrail: {fileID: 7023444368009649142, guid: 6a0ae43a4224be345b7ac917d9e434a5, type: 3}

@@ -5,6 +5,9 @@ public sealed class NachtDerUntotenSceneInstaller : SceneInstaller
     [Header("Compass")]
     [SerializeField] private Compass _compass;
 
+    [Header("Weapon")]
+    [SerializeField] private WeaponManager _weaponManager;
+
     [Header("Zombie Pool Settings")]
     [SerializeField] private Zombie _zombiePrefab;
     [SerializeField] private Transform _poolRoot;
@@ -13,6 +16,7 @@ public sealed class NachtDerUntotenSceneInstaller : SceneInstaller
     protected override void Install(IContainer container)
     {
         container.BindInstance(_compass).AsSingle();
+        container.BindInstance(_weaponManager).AsSingle();
 
         container.Bind<IMoney>(_ => new MoneyManager(1000000)).AsSingle();
 

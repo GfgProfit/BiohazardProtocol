@@ -17,12 +17,17 @@ public abstract class SceneInstaller : MonoBehaviour
 
         if (InjectOnAwake)
         {
-            GameObject[] roots = gameObject.scene.GetRootGameObjects();
+            Inject();
+        }
+    }
 
-            for (int i = 0; i < roots.Length; i++)
-            {
-                Container.InjectGameObject(roots[i], true);
-            }
+    private void Inject()
+    {
+        GameObject[] roots = gameObject.scene.GetRootGameObjects();
+
+        for (int i = 0; i < roots.Length; i++)
+        {
+            Container.InjectGameObject(roots[i], true);
         }
     }
 

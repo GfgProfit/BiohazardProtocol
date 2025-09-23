@@ -1,9 +1,54 @@
 fileFormatVersion: 2
-guid: b2774039611d44247816175b19750f89
+guid: eed51e357e5a3db4e86e1e9542daca37
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_bare_hands_hand
+    second: {fileID: 2100000, guid: 8ac07d63219acd543ac657f06bbe2f79, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_novic_novic
+    second: {fileID: 2100000, guid: 9cb0ed106af65c1478789ed5889d9d5e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: aluminium
+    second: {fileID: 2100000, guid: c475dd4eaf9d01f409653cbc9c9fc21b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: anodised aluminium
+    second: {fileID: 2100000, guid: 46c2a664489bc0547bff7d82e70aa5f0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bakelite (brown-red)
+    second: {fileID: 2100000, guid: bade236768cd9c04b9eb7c98513c1b4b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: bakelite (red)
+    second: {fileID: 2100000, guid: 60470bf898e789348b22ac8205d5786c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: copper
+    second: {fileID: 2100000, guid: 872040f0b1480104085be5c88d50ea47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: stell
+    second: {fileID: 2100000, guid: 9fdafdc756b1d9f4b8a71d9c3f2172c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: wood (walnut)
+    second: {fileID: 2100000, guid: 4faabd6896cb35249bd50f0f5a221f45, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

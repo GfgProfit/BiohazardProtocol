@@ -1,9 +1,44 @@
 fileFormatVersion: 2
-guid: ac79b9204eee3ac428a8a8dd4068b7b4
+guid: 2c76aa0783e700c4aa3b535de0b4f682
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1b
+    second: {fileID: 2100000, guid: 7a9d0843ed85f6f4d80eab7abb2b8b59, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1n
+    second: {fileID: 2100000, guid: cf0f8e2eb588bfa4a80b03df6854e1fb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 1w
+    second: {fileID: 2100000, guid: 44de5634a072ce94780a3a72003d1b19, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 3b
+    second: {fileID: 2100000, guid: 0d498710aa541074d9d7af7acb1e2cd0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_bare_hands_hand
+    second: {fileID: 2100000, guid: a46f709dec7df7c49ac8ec58c64ddbbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: act_New_hands_novic_novic
+    second: {fileID: 2100000, guid: c697fa30b90e8434f8e7738d8be1976a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blt
+    second: {fileID: 2100000, guid: 6ff18bbcbadd8a34d85d5c907b6aea5d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
