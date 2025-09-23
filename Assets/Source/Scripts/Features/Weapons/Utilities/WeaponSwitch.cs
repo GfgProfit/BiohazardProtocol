@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -98,6 +99,16 @@ public class WeaponSwitch : MonoBehaviour
             _primaryWeapon = newWeapon;
             Select(_primaryWeapon);
         }
+    }
+
+    public IEnumerator HideWeapon()
+    {
+        yield return _selectedWeapon.HideWeapon();
+    }
+
+    public IEnumerator DrawWeapon()
+    {
+        yield return _selectedWeapon.DrawWeapon();
     }
 
     public WeaponBehaviour GetCurrentWeapon() => _selectedWeapon;

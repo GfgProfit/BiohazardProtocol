@@ -1,5 +1,3 @@
-using EPOOutline;
-
 public interface IInteractable
 {
     string Text { get; set; }

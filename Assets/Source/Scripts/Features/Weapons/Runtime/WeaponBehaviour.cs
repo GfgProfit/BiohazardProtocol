@@ -212,6 +212,36 @@ public class WeaponBehaviour : MonoBehaviour
         _context.Switcher.Select(selectableWeapon);
     }
 
+    public IEnumerator HideWeapon()
+    {
+        _animator.Play(_config.HideName);
+
+        _canReload = false;
+        _canShoot = false;
+        _canSwitch = false;
+        _canScope = false;
+
+        _weaponManager.InteractDetector.CanInteract = false;
+
+        yield return new WaitForSeconds(_config.SwitchDelay);
+
+        gameObject.SetActive(false);
+    }
+
+    public IEnumerator DrawWeapon()
+    {
+        gameObject.SetActive(true);
+
+        yield return null;
+
+        _canReload = true;
+        _canShoot = true;
+        _canSwitch = true;
+        _canScope = true;
+
+        _weaponManager.InteractDetector.CanInteract = true;
+    }
+
     private string BuildAmmoText()
     {
         string current = _config.CurrentAmmo > 0

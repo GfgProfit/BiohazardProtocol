@@ -1,6 +1,8 @@
 using DG.Tweening;
 using UnityEngine;
 
+#pragma warning disable IDE0044
+
 public class WorldWeaponInteract : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform _worldViewWeapon;

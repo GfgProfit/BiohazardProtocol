@@ -1,4 +1,7 @@
+using System.Collections;
 using UnityEngine;
+
+#pragma warning disable IDE0044
 
 public class PerkMachineInteract : MonoBehaviour, IInteractable
 {
@@ -7,6 +10,8 @@ public class PerkMachineInteract : MonoBehaviour, IInteractable
     [SerializeField] private Light _machineWorkingLight;
     [SerializeField] private ObjectShaker _objectShaker;
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private SodaCan _sodaCanPrefab;
+    [SerializeField] private Material _sodaCanMaterial;
 
     [Space]
     [SerializeField] private string _zoneName;
@@ -18,6 +23,7 @@ public class PerkMachineInteract : MonoBehaviour, IInteractable
     public bool CanInteract { get => _canInteract; set { _canInteract = value; } }
     
     [Inject] private IMoney _moneyService;
+    [Inject] private WeaponManager _weaponManager;
 
     public void Interact()
     {
@@ -30,6 +36,23 @@ public class PerkMachineInteract : MonoBehaviour, IInteractable
             _objectShaker.enabled = true;
             CanInteract = false;
             _audioSource.Play();
+            StartCoroutine(Use());
+
         }
+    }
+
+    public IEnumerator Use()
+    {
+        yield return _weaponManager.SwitchWeapon.HideWeapon();
+
+        SodaCan sodaCan = Instantiate(_sodaCanPrefab, _weaponManager.PlayerCamera.transform);
+
+        sodaCan.ChangeMaterial(_sodaCanMaterial);
+
+        yield return new WaitForSeconds(2.5f);
+
+        yield return _weaponManager.SwitchWeapon.DrawWeapon();
+
+        Destroy(sodaCan.gameObject);
     }
 }

@@ -11,6 +11,7 @@ public class WeaponManager : MonoBehaviour
     [field: SerializeField] public Transform ShootTransform { get; private set; }
     [field: SerializeField] public Camera PlayerCamera { get; private set; }
     [field: SerializeField] public CrosshairController CrosshairController { get; private set; }
+    [field: SerializeField] public InteractDetector InteractDetector { get; private set; }
 
     public void AddAmmoFromAmmoBox()
     {
