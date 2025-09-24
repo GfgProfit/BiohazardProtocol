@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Bits: 755
   _weaponDefaultPosition: {x: 0, y: 0, z: 0}
   _weaponAimingPosition: {x: 0, y: 0, z: 0}
-  _damage: 20
+  _damage: 30
   _fireRate: 600
   _shotgunPellets: 8
   _switchDelay: 0.5

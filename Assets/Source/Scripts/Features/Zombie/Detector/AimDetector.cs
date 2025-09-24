@@ -16,7 +16,15 @@ public class AimDetector : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit hit, _maxDistance, _hitMask, QueryTriggerInteraction.Ignore))
         {
-            detected = hit.collider.GetComponentInParent<ITargetable>();
+            if (hit.collider.TryGetComponent(out ZombieHitScan hitScan))
+            {
+                detected = hitScan.GetComponentInParent<ITargetable>();
+            }
+        }
+
+        if (detected != null && detected.IsDead)
+        {
+            detected = null;
         }
 
         if (!ReferenceEquals(detected, _current))

@@ -130,8 +130,13 @@ public sealed class WeaponFire
             Object.Destroy(go, 2f);
         }
 
-        if (collider.TryGetComponent(out ZombieHitScan _))
+        if (collider.TryGetComponent(out ZombieHitScan hitscan))
         {
+            if (!hitscan.enabled)
+            {
+                return;
+            }
+
             collider.GetComponentInParent<Zombie>()?.Damage(_config.Damage);
         }
     }

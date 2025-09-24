@@ -1074,11 +1074,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52cc7747e24fa5e4f9b8ed424fc9ce80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthView: {fileID: 1929034273788566175}
   _agent: {fileID: 9063764780219501546}
+  _healthView: {fileID: 1929034273788566175}
   _animator: {fileID: 5215136475916788508}
-  _walkSpeed: 1.8
-  _sprintSpeed: 3
+  _walkSpeed: 2
+  _reachRadius: 0.25
+  _bodies:
+  - {fileID: 5526982102911617687}
+  - {fileID: 2859663580176621796}
+  - {fileID: 953360501679847427}
+  - {fileID: 2553614738884491841}
+  - {fileID: 8720068347096120809}
+  - {fileID: 7951795701596438884}
+  - {fileID: 7053520874900200316}
+  - {fileID: 4790530190332547491}
+  - {fileID: 4480387996036905125}
+  - {fileID: 2841250675417874224}
+  - {fileID: 1307914967783864935}
+  _hitScans:
+  - {fileID: 1689977540885978159}
+  - {fileID: 186247335749226077}
+  - {fileID: 4070557814832984320}
+  - {fileID: 2378608932451886755}
+  - {fileID: 7656783517177640755}
+  - {fileID: 3055133391425749232}
+  - {fileID: 74153113376937761}
+  - {fileID: 518798177373924967}
+  - {fileID: 3084169887932288267}
+  - {fileID: 4262014053562034982}
+  - {fileID: 1812206337326204789}
 --- !u!114 &1929034273788566175
 MonoBehaviour:
   m_ObjectHideFlags: 0

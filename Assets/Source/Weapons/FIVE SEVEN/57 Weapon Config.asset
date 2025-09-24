@@ -20,7 +20,7 @@ MonoBehaviour:
     m_Bits: 755
   _weaponDefaultPosition: {x: 0, y: 0, z: 0}
   _weaponAimingPosition: {x: 0, y: 0, z: 0}
-  _damage: 15
+  _damage: 20
   _fireRate: 400
   _shotgunPellets: 8
   _switchDelay: 0.5
@@ -29,7 +29,7 @@ MonoBehaviour:
   _aimingSmooth: 10
   _magSize: 20
   _currentAmmo: 20
-  _availableAmmo: 60
+  _availableAmmo: 200
   _ammoBoxCount: 140
   _shootName: Shoot
   _aimShootName: Aim Shoot

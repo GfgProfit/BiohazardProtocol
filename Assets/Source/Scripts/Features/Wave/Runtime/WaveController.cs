@@ -13,6 +13,10 @@ public sealed class WaveController : MonoBehaviour
     [SerializeField] private WaveStartAnimations _newWaveAnimations;
     [SerializeField] private WaveClearedAnimations _clearedWaveAnimations;
     [SerializeField] private WaveCountdownTimerView _countdownTimerView;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _waveStartClip;
+    [SerializeField] private AudioClip _waveEndClip;
+    [SerializeField] private AudioClip _tickClock;
 
     [Space]
     [SerializeField] private float _spawnCooldown = 0.5f;
@@ -44,6 +48,8 @@ public sealed class WaveController : MonoBehaviour
         _aliveZombies = 0;
 
         _maxZombiesInWave = Mathf.Min(50, 8 + _waveService.WaveIndex * 2);
+
+        _audioSource.PlayOneShot(_waveStartClip);
 
         _spawnRoutine = StartCoroutine(SpawnZombies());
         StartCoroutine(PlayInOutNewWaveAnimation());
@@ -86,10 +92,11 @@ public sealed class WaveController : MonoBehaviour
             yield return null;
         }
 
+        _audioSource.PlayOneShot(_waveEndClip);
         yield return PlayInOutWaveClearedAnimation();
 
         _countdownTimerView.StartInAnimation();
-
+        _audioSource.PlayOneShot(_tickClock, 0.1f);
         float countdown = 15f;
 
         while (countdown > 0f)
@@ -111,15 +118,42 @@ public sealed class WaveController : MonoBehaviour
 
     private void SpawnOne(List<WaveSpawnData> allowed)
     {
-        var data = allowed[Random.Range(0, allowed.Count)];
+        if (allowed == null || allowed.Count == 0) return;
 
+        var data = allowed[UnityEngine.Random.Range(0, allowed.Count)];
+        if (data == null || data.BarricadeController == null) return;
+
+        var controller = data.BarricadeController;
+        var slots = controller.Slots != null
+            ? controller.Slots
+            : controller.GetComponent<BarricadeSlots>();
+
+        if (slots == null)
+        {
+            Debug.LogWarning("[SpawnOne] На выбранной баррикаде нет BarricadeSlots.");
+            return;
+        }
+
+        // 1) Берём зомби из пула
         Zombie zombie = _pool.Get();
-        zombie.SetSpawnPoint(data.SpawnPoint);
 
+        // 2) Ставим на точку спавна (если есть Override — используем её, иначе SpawnPoint из контроллера)
+        Transform spawnPoint = controller.SpawnPoint;
+
+        if (spawnPoint != null)
+            zombie.SetSpawnPoint(spawnPoint);
+
+        // 3) Готовим состояние атаки баррикады (заглушка с кулдауном и очередью перелаза)
+        //    Важно: передаём именно BarricadeController.
+        zombie.SetAttackState(new ZombieAttackBarricadeState(zombie, controller, 2f, "Attack"));
+
+        // 4) Отправляем зомби к ДУГЕ слотов этой баррикады (занимает лучший от центра; апгрейдится)
+        zombie.GoToBarricade(slots);
+
+        // 5) Подписка на смерть, чтобы убирать мусор и возвращать в пул
         zombie.Died += OnZombieDeath;
-        zombie.SetTarget(data.PointToBarricade);
-        zombie.SetDestinationToTarget();
 
+        // 6) Учёт волны
         _spawnedThisWave++;
         _aliveZombies++;
     }
@@ -164,14 +198,14 @@ public sealed class WaveController : MonoBehaviour
             Color dir = canSpawn ? Color.blue : new Color(0.5f, 0.5f, 0.5f, 0.35f);
 
             Gizmos.color = main;
-            Gizmos.DrawWireSphere(spawnData.SpawnPoint.position, 1.0f);
+            Gizmos.DrawWireSphere(spawnData.BarricadeController.SpawnPoint.position, 1.0f);
 
             Gizmos.color = Color.white;
-            Gizmos.DrawSphere(spawnData.SpawnPoint.position, 0.1f);
+            Gizmos.DrawSphere(spawnData.BarricadeController.SpawnPoint.position, 0.1f);
 
             Gizmos.color = dir;
-            Vector3 start = spawnData.SpawnPoint.position;
-            Vector3 end = start + spawnData.SpawnPoint.forward * 2.0f;
+            Vector3 start = spawnData.BarricadeController.SpawnPoint.position;
+            Vector3 end = start + spawnData.BarricadeController.SpawnPoint.forward * 2.0f;
             Gizmos.DrawLine(start, end);
             Gizmos.DrawWireSphere(end, 0.1f);
         }
@@ -180,14 +214,14 @@ public sealed class WaveController : MonoBehaviour
         {
             var d = _waveSpawnDatas[i];
             Gizmos.color = Color.magenta;
-            Gizmos.DrawWireSphere(d.PointToBarricade.position, 1.0f);
+            Gizmos.DrawWireSphere(d.BarricadeController.PointToBarricade.position, 1.0f);
 
             Gizmos.color = Color.white;
-            Gizmos.DrawSphere(d.PointToBarricade.position, 0.1f);
+            Gizmos.DrawSphere(d.BarricadeController.PointToBarricade.position, 0.1f);
 
             Gizmos.color = Color.yellow;
-            Vector3 start = d.PointToBarricade.position;
-            Vector3 end = start + d.PointToBarricade.forward * 2.0f;
+            Vector3 start = d.BarricadeController.PointToBarricade.position;
+            Vector3 end = start + d.BarricadeController.PointToBarricade.forward * 2.0f;
             Gizmos.DrawLine(start, end);
             Gizmos.DrawWireSphere(end, 0.1f);
         }

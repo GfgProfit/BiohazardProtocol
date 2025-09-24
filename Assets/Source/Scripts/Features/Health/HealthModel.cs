@@ -1,3 +1,5 @@
+using UnityEngine.Rendering;
+
 public sealed class HealthModel
 {
     public int Max { get; private set; }
@@ -35,5 +37,10 @@ public sealed class HealthModel
         }
 
         Current -= amount;
+
+        if (Current <= 0)
+        {
+            Current = 0;
+        }
     }
 }

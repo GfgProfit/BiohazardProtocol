@@ -15,6 +15,8 @@ public class ZombieHealthView : MonoBehaviour, ITargetable
     [SerializeField] private float _fadeDuration = 0.15f;
     [SerializeField] private bool _startHidden = true;
 
+    public bool IsDead => _health == null || _health.Current <= 0;
+
     private Coroutine _fadeRoutine;
     private HealthModel _health;
 
@@ -105,6 +107,7 @@ public class ZombieHealthView : MonoBehaviour, ITargetable
 
         if (_health.Current <= 0)
         {
+            Unfocus();
             deathCallback?.Invoke();
         }
     }
