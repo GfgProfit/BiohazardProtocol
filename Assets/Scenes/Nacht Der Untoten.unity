@@ -8,8 +8,8 @@ OcclusionCullingSettings:
     smallestOccluder: 1
     smallestHole: 0.25
     backfaceThreshold: 100
-  m_SceneGUID: 00000000000000000000000000000000
-  m_OcclusionCullingData: {fileID: 0}
+  m_SceneGUID: e05ddea9ac67bda4fb44f186fad7e84c
+  m_OcclusionCullingData: {fileID: 36300000, guid: ffc32356e57848f4590e45a3cb759c35, type: 2}
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 51007896}
   - component: {fileID: 51007898}
   - component: {fileID: 51007899}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,8 +578,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3477154, y: 1.1452035, z: 0.836916}
-  m_Center: {x: -0.00000333786, y: 0.4233365, z: 0.00000031292447}
+  m_Size: {x: 2.3477154, y: 2.7934504, z: 0.836916}
+  m_Center: {x: -0.0000033378615, y: 1.2474599, z: 0.00000032782492}
 --- !u!1 &78545316
 GameObject:
   m_ObjectHideFlags: 0
@@ -25446,7 +25446,7 @@ GameObject:
   - component: {fileID: 1260996983}
   - component: {fileID: 1260996985}
   - component: {fileID: 1260996986}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25556,8 +25556,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.347714, y: 1.1452035, z: 0.83691555}
-  m_Center: {x: 0, y: 0.4233365, z: 0.0000048428774}
+  m_Size: {x: 2.347714, y: 2.7878373, z: 0.83691555}
+  m_Center: {x: -1.6296908e-12, y: 1.2446533, z: 0.0000048279776}
 --- !u!1 &1273597683
 GameObject:
   m_ObjectHideFlags: 0
@@ -33339,7 +33339,7 @@ MonoBehaviour:
   _weaponRoot: {fileID: 1486800820}
   _hitMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 243
   _checkDistance: 0.8
   _minOffset: 0
   _maxOffset: -0.6
@@ -35124,7 +35124,7 @@ Light:
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 0.48584908, g: 0.6777733, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -36605,6 +36605,11 @@ MonoBehaviour:
   _sprintCameraFieldOfView: 80
   _fieldOfViewSmooth: 10
   _mouseSensitivity: 2
+  _crouchHeight: 1.5
+  _standHeight: 2
+  _crouchSpeed: 1.5
+  _crouchTransitionSpeed: 6
+  _crouchCameraOffset: {x: 0, y: -0.5, z: 0}
   _characterController: {fileID: 1801519109}
   _crosshairController: {fileID: 1801519112}
   _mainCamera: {fileID: 608595061}
@@ -38341,6 +38346,7 @@ MonoBehaviour:
   _zombiePrefab: {fileID: 7091130684531584875, guid: e68676d18699d78418ed3cbf4a1ee126, type: 3}
   _poolRoot: {fileID: 1835395935}
   _preload: 50
+  _moneyOnStart: 1000
 --- !u!1 &2000896630
 GameObject:
   m_ObjectHideFlags: 0
@@ -48779,7 +48785,7 @@ GameObject:
   - component: {fileID: 23022873376938999}
   - component: {fileID: 33264656621680826}
   - component: {fileID: 33264656621680827}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48799,7 +48805,7 @@ GameObject:
   - component: {fileID: 23022873378000740}
   - component: {fileID: 33264656624806955}
   - component: {fileID: 33264656624806956}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48895,7 +48901,7 @@ GameObject:
   - component: {fileID: 23022872362428213}
   - component: {fileID: 33264655724627068}
   - component: {fileID: 33264655724627069}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48953,7 +48959,7 @@ GameObject:
   - component: {fileID: 23022872534733671}
   - component: {fileID: 33264655924310058}
   - component: {fileID: 33264655924310059}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49030,7 +49036,7 @@ GameObject:
   - component: {fileID: 23022871958947363}
   - component: {fileID: 33264655321752942}
   - component: {fileID: 33264655321752943}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SandBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -85927,8 +85933,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3477154, y: 1.1452035, z: 0.836916}
-  m_Center: {x: 0, y: 0.4233365, z: 0.00000031292447}
+  m_Size: {x: 2.3477154, y: 2.793943, z: 0.836916}
+  m_Center: {x: 2.2030387e-14, y: 1.2477062, z: 0.0000003278255}
 --- !u!33 &33264655466674289
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86001,8 +86007,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.347716, y: 1.1452035, z: 0.83691627}
-  m_Center: {x: -0.0000023841858, y: 0.4233365, z: -0.0000035017727}
+  m_Size: {x: 2.347716, y: 2.7817068, z: 0.83691627}
+  m_Center: {x: -0.0000023841853, y: 1.2415881, z: -0.000003516673}
 --- !u!33 &33264655751307433
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86162,8 +86168,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3477154, y: 1.1452035, z: 0.836916}
-  m_Center: {x: 0.0000009536743, y: 0.4233365, z: 0.00000031292447}
+  m_Size: {x: 2.3477154, y: 2.8332167, z: 0.836916}
+  m_Center: {x: 0.0000009536742, y: 1.267343, z: 0.00000032782543}
 --- !u!33 &33264656058252443
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86236,8 +86242,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3477154, y: 1.1452035, z: 0.836916}
-  m_Center: {x: 0.0000019073486, y: 0.4233365, z: 0.00000078976166}
+  m_Size: {x: 2.3477154, y: 2.7460954, z: 0.836916}
+  m_Center: {x: 0.0000019073493, y: 1.2237827, z: 0.0000007748607}
 --- !u!33 &33264656624806954
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -86281,8 +86287,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.347715, y: 1.1452035, z: 0.83691585}
-  m_Center: {x: 0.0000009536743, y: 0.4233365, z: -0.0000035017729}
+  m_Size: {x: 2.347715, y: 2.6824665, z: 0.83691585}
+  m_Center: {x: 0.0000009536748, y: 1.191968, z: -0.000003486872}
 --- !u!33 &33264656694363547
 MeshFilter:
   m_ObjectHideFlags: 0

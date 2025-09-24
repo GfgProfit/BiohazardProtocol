@@ -23,6 +23,13 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] private float _mouseSensitivity = 2.0f;
 
+    [Header("Crouch")]
+    [SerializeField] private float _crouchHeight = 1.0f;          // высота капсулы при приседании
+    [SerializeField] private float _standHeight = 2.0f;           // высота капсулы стоя
+    [SerializeField] private float _crouchSpeed = 1.5f;           // скорость ходьбы при приседе
+    [SerializeField] private float _crouchTransitionSpeed = 6.0f; // плавность анимации
+    [SerializeField] private Vector3 _crouchCameraOffset = new(0, -0.5f, 0);
+
     [SerializeField] private CharacterController _characterController;
     [SerializeField] private CrosshairController _crosshairController;
     [SerializeField] private Camera _mainCamera;
@@ -37,12 +44,16 @@ public class PlayerController : MonoBehaviour
     private float _verticalVelocity;
     private bool _sprintLocked;
     private IPlayerInput _input;
+    private Vector3 _cameraTargetLocalPos;
+    private Vector3 _cameraDefaultLocalPos;
     #endregion
 
     #region Properties
     public bool IsSprinting { get; private set; }
     public bool CanSprinting { get; private set; }
     public bool IsWalking { get; private set; }
+    public bool IsCrouching { get; private set; }
+    public bool CanCrouching { get; private set; } = true;
     #endregion
 
     #region Unity Methods
@@ -54,6 +65,9 @@ public class PlayerController : MonoBehaviour
         _input = new LegacyPlayerInput();
 
         _currentSpeed = _walkSpeed;
+
+        _cameraDefaultLocalPos = _cameraTransform.localPosition;
+        _cameraTargetLocalPos = _cameraDefaultLocalPos;
     }
 
     private void OnValidate()
@@ -68,6 +82,7 @@ public class PlayerController : MonoBehaviour
         Look();
         SetRawInput();
         UpdateMotionState();
+        HandleCrouch();
         Move();
         UpdateCameraFieldOfView();
     }
@@ -119,15 +134,21 @@ public class PlayerController : MonoBehaviour
 
     private float CalculateTargetSpeed()
     {
-        float targetSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
+        float targetSpeed;
+
+        if (IsCrouching)
+            targetSpeed = _crouchSpeed;
+        else
+            targetSpeed = IsSprinting ? _sprintSpeed : _walkSpeed;
+
         _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _fieldOfViewSmooth * Time.deltaTime);
-        
+
         return _currentSpeed;
     }
 
     private void UpdateCameraFieldOfView()
     {
-        float targetFOV = IsSprinting ? _sprintCameraFieldOfView : _defaultCameraFieldOfView;
+        float targetFOV = IsSprinting && !IsCrouching ? _sprintCameraFieldOfView : _defaultCameraFieldOfView;
         _mainCamera.fieldOfView = Mathf.Lerp(_mainCamera.fieldOfView, targetFOV, _fieldOfViewSmooth * Time.deltaTime);
     }
 
@@ -153,7 +174,11 @@ public class PlayerController : MonoBehaviour
         if (IsSprinting)
         {
             _staminaStat.Decrease(7.5f);
-            _crosshairController.Sprint();
+
+            if (!IsCrouching)
+            {
+                _crosshairController.Sprint();
+            }
         }
         else
         {
@@ -170,5 +195,48 @@ public class PlayerController : MonoBehaviour
             _crosshairController.SetIdle();
         }
     }
+
+    private void HandleCrouch()
+    {
+        if (!CanCrouching)
+        {
+            return;
+        }
+
+        bool crouchPressed = Input.GetKey(KeyCode.LeftControl);
+
+        if (crouchPressed && !IsCrouching)
+        {
+            StartCrouch();
+        }
+        else if (!crouchPressed && IsCrouching)
+        {
+            StopCrouch();
+        }
+
+        _cameraTransform.localPosition = Vector3.Lerp(
+            _cameraTransform.localPosition,
+            _cameraTargetLocalPos,
+            Time.deltaTime * _crouchTransitionSpeed);
+    }
+
+    private void StartCrouch()
+    {
+        IsCrouching = true;
+        _characterController.height = _crouchHeight;
+        _characterController.center = new Vector3(0, _crouchHeight / 2f, 0);
+        _cameraTargetLocalPos = _cameraDefaultLocalPos + _crouchCameraOffset;
+    }
+
+    private void StopCrouch()
+    {
+        IsCrouching = false;
+        _characterController.height = _standHeight;
+        _characterController.center = new Vector3(0, _standHeight / 2f, 0);
+        _cameraTargetLocalPos = _cameraDefaultLocalPos;
+    }
+
+    public void SetCanCrouching(bool canCrouching) => CanCrouching = canCrouching;
+        
     #endregion
 }

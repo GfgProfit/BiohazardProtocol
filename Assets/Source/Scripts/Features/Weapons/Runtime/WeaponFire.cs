@@ -137,7 +137,9 @@ public sealed class WeaponFire
                 return;
             }
 
-            collider.GetComponentInParent<Zombie>()?.Damage(_config.Damage);
+            float damage = _config.Damage * hitscan.DamageMultiplier;
+
+            collider.GetComponentInParent<Zombie>()?.Damage((int)damage);
         }
     }
 }

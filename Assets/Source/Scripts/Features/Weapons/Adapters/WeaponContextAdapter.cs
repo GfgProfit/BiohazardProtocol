@@ -62,6 +62,7 @@ public sealed class WeaponContextAdapter : IWeaponContext
 
         public bool IsWalking => _pc.IsWalking;
         public bool IsSprinting => _pc.IsSprinting;
+        public bool IsCrouching => _pc.IsCrouching;
     }
 
     private sealed class SwitcherAdapter : ISwitcher

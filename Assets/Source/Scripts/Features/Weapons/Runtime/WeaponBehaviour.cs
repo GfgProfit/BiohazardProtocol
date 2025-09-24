@@ -153,7 +153,7 @@ public class WeaponBehaviour : MonoBehaviour
         bool sprint = _context.Player.IsSprinting;
 
         _animator.SetBool("Walk", walking);
-        _animator.SetBool("Run", sprint);
+        _animator.SetBool("Run", sprint && !_weaponManager.PlayerController.IsCrouching);
         _animator.SetBool("Aim Walk", walking && _inScope);
 
         if (sprint)
