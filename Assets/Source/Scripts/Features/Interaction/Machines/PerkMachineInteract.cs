@@ -12,6 +12,10 @@ public class PerkMachineInteract : MonoBehaviour, IInteractable
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private SodaCan _sodaCanPrefab;
     [SerializeField] private Material _sodaCanMaterial;
+    [SerializeField] private PerkUseView _perkUseView;
+    [SerializeField] private Color _fxUIColor = Color.white;
+    [SerializeField] private Sprite _perkSprite;
+    [SerializeField] private PerkAbstract _perkBehaviour;
 
     [Space]
     [SerializeField] private string _zoneName;
@@ -49,7 +53,13 @@ public class PerkMachineInteract : MonoBehaviour, IInteractable
 
         sodaCan.ChangeMaterial(_sodaCanMaterial);
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.5f);
+
+        _perkUseView.Fade(0.2f, _fxUIColor);
+        _perkUseView.CreatePerkIcon(_perkSprite);
+        _perkBehaviour.Use();
+
+        yield return new WaitForSeconds(2.0f);
 
         yield return _weaponManager.SwitchWeapon.DrawWeapon();
 

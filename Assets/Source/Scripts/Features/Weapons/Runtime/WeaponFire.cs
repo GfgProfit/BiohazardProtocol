@@ -7,18 +7,22 @@ public sealed class WeaponFire
     private readonly WeaponEffects _effects;
     private readonly WeaponConfig _config;
     private readonly Transform _barrelPoint;
+    private readonly WeaponManager _weaponManager;
 
     private float _lastShotT;
 
-    public WeaponFire(IWeaponContext context, WeaponEffects effects, WeaponConfig config, Transform barrelPoint)
+    public WeaponFire(IWeaponContext context, WeaponEffects effects, WeaponConfig config, Transform barrelPoint, WeaponManager weaponManager)
     {
         _context = context;
         _effects = effects;
         _config = config;
         _barrelPoint = barrelPoint;
+        _weaponManager = weaponManager;
     }
 
-    public bool CanShootNow => Time.time - _lastShotT > 1f / (_config.FireRate / 60f);
+    public float FireRate => _weaponManager.DoubleTapActive ? _config.FireRate * _weaponManager.DoubleTapFireRateMultiplier : _config.FireRate;
+
+    public bool CanShootNow => Time.time - _lastShotT > 1f / (FireRate / 60f);
 
     public bool TryShoot(bool aimHeld, MonoBehaviour host)
     {
@@ -137,9 +141,11 @@ public sealed class WeaponFire
                 return;
             }
 
-            float damage = _config.Damage * hitscan.DamageMultiplier;
+            float damage = _weaponManager.DoubleTapActive ? _config.Damage * _weaponManager.DoubleTapDamageMultiplier : _config.Damage;
 
-            collider.GetComponentInParent<Zombie>()?.Damage((int)damage);
+            float damageHitScan = damage * hitscan.DamageMultiplier;
+
+            collider.GetComponentInParent<Zombie>()?.Damage((int)damageHitScan);
         }
     }
 }

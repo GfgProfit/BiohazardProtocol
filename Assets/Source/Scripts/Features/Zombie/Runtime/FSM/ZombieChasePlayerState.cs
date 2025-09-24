@@ -9,11 +9,13 @@ public class ZombieChasePlayerState : IZombieState
     private float _timer;
     private Vector3 _lastTargetPos;
     private readonly float _attackRange;
+    private readonly IZombieState _attackPlayerState;
 
-    public ZombieChasePlayerState(Zombie self, Transform target, float repathInterval = 0.2f, float repathMoveThreshold = 0.4f, float attackRange = 1.2f)
+    public ZombieChasePlayerState(Zombie self, Transform target, IZombieState attackPlayerState, float repathInterval = 0.2f, float repathMoveThreshold = 0.4f, float attackRange = 1.2f)
     {
         _self = self;
         _target = target;
+        _attackPlayerState = attackPlayerState;
         _repathInterval = Mathf.Max(0.05f, repathInterval);
         _repathMoveThreshold = Mathf.Max(0.05f, repathMoveThreshold);
         _attackRange = Mathf.Max(0f, attackRange);
@@ -30,16 +32,13 @@ public class ZombieChasePlayerState : IZombieState
         }
     }
 
-    public void Exit(Zombie zombie)
-    {
-    }
+    public void Exit(Zombie zombie) { }
 
     public void Tick(Zombie zombie)
     {
         if (_target == null)
         {
             _self.SetDestinationToPoint(_lastTargetPos);
-
             return;
         }
 
@@ -56,9 +55,9 @@ public class ZombieChasePlayerState : IZombieState
 
         if (_attackRange > 0f && _self.IsNear(cur, _attackRange))
         {
-            //TODO: ChangeState(_attackPlayerState);
-            //пока просто повернуться к игроку
             _self.StopAndFace(cur);
+            _self.ChangeState(_attackPlayerState);
+            return;
         }
     }
 

@@ -1,5 +1,3 @@
-using UnityEngine.Rendering;
-
 public sealed class HealthModel
 {
     public int Max { get; private set; }

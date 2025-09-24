@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!245 &-1924990449007220702
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LowHP
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: c11d4b0174e661c4ab01cbc2987d68f0
+  m_FloatValues:
+    545e65d1e12723645ab70c92a30d3e6e: -10.345207
+    838c20c416da87b498caec859fcd4c47: -9.833286
+    e07e30252800bcb4abb3ebd28469e28c: -10.345207
+    263fe6a58b8e9ca4fbb086e178d81420: 800
+    8ac002db73a98c541971c3bc430dffd5: -9.833286
+    d689ea1ebf746274f982ad2755ca6ac6: -10.345207
+  m_TransitionOverrides: {}
+--- !u!241 &24100000
+AudioMixerController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Health Audio Mixer
+  m_OutputGroup: {fileID: 0}
+  m_MasterGroup: {fileID: 24300002}
+  m_Snapshots:
+  - {fileID: 24500006}
+  - {fileID: -1924990449007220702}
+  m_StartSnapshot: {fileID: 24500006}
+  m_SuspendThreshold: -80
+  m_EnableSuspend: 1
+  m_UpdateMode: 0
+  m_ExposedParameters: []
+  m_AudioMixerGroupViews:
+  - guids:
+    - e5b6fcc126aa2cd4bafea6724f3849a8
+    name: View
+  m_CurrentViewIndex: 0
+  m_TargetSnapshot: {fileID: 24500006}
+--- !u!243 &24300002
+AudioMixerGroupController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Master
+  m_AudioMixer: {fileID: 24100000}
+  m_GroupID: e5b6fcc126aa2cd4bafea6724f3849a8
+  m_Children: []
+  m_Volume: 838c20c416da87b498caec859fcd4c47
+  m_Pitch: 353e89fbf4475e74dac507e4c93ab5b0
+  m_Send: 00000000000000000000000000000000
+  m_Effects:
+  - {fileID: 24400004}
+  - {fileID: 4285552595005481922}
+  m_UserColorIndex: 0
+  m_Mute: 0
+  m_Solo: 0
+  m_BypassEffects: 0
+--- !u!244 &24400004
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: cb2912c71f0914a4b85d7f8d09e8a3e5
+  m_EffectName: Attenuation
+  m_MixLevel: 487533f9460684742aa3d25714a7edd7
+  m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!245 &24500006
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Normal
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 0246b8816fb90c24b8e2b7dd264348e5
+  m_FloatValues:
+    263fe6a58b8e9ca4fbb086e178d81420: 22000
+  m_TransitionOverrides: {}
+--- !u!244 &4285552595005481922
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 755005e335787804688b667f1757ada7
+  m_EffectName: Lowpass Simple
+  m_MixLevel: 5bf8427243a7d364497a7da2b9068975
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 263fe6a58b8e9ca4fbb086e178d81420
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0

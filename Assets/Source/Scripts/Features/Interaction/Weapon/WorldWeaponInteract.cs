@@ -26,7 +26,6 @@ public class WorldWeaponInteract : MonoBehaviour, IInteractable
 
         if (spended)
         {
-            _weaponManager.AddAmmoFromAmmoBox();
             AnimatePingPongPopUp();
 
             GameObject gameObject = Instantiate(_weaponPrefab.gameObject, _weaponManager.SwitchWeapon.transform);

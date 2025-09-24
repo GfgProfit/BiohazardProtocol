@@ -13,6 +13,13 @@ public class WeaponManager : MonoBehaviour
     [field: SerializeField] public CrosshairController CrosshairController { get; private set; }
     [field: SerializeField] public InteractDetector InteractDetector { get; private set; }
 
+    public bool SpeedColaActive { get; set; } = false;
+    public float SpeedColaMultiplier { get; set; } = 0;
+
+    public bool DoubleTapActive { get; set; } = false;
+    public float DoubleTapDamageMultiplier { get; set; } = 0;
+    public float DoubleTapFireRateMultiplier { get; set; } = 0;
+
     public void AddAmmoFromAmmoBox()
     {
         SwitchWeapon.GetCurrentWeapon().AddAmmoFromAmmoBox();

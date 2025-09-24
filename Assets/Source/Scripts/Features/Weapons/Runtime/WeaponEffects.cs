@@ -36,6 +36,12 @@ public sealed class WeaponEffects
         PlayOne(clips[Random.Range(0, clips.Length)]);
     }
 
+    public void SetSpeedMultiplier(float speedMultiplier)
+    {
+        _animator.speed = speedMultiplier;
+        _audio.pitch = speedMultiplier;
+    }
+
     public void Muzzle(bool enabled, GameObject[] prefabs, float scale, float destroyAfter)
     {
         if (!enabled || prefabs == null || prefabs.Length == 0)

@@ -1,5 +1,4 @@
 using UnityEngine;
-using TMPro;
 
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(CharacterController))]
@@ -35,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private Transform _cameraTransform;
     [SerializeField] private StatusStat _staminaStat;
+    [SerializeField] private VignetteController _vignetteController;
     #endregion
 
     #region Private Fields
@@ -226,6 +226,8 @@ public class PlayerController : MonoBehaviour
         _characterController.height = _crouchHeight;
         _characterController.center = new Vector3(0, _crouchHeight / 2f, 0);
         _cameraTargetLocalPos = _cameraDefaultLocalPos + _crouchCameraOffset;
+
+        _vignetteController.AnimateIntensityCrouch();
     }
 
     private void StopCrouch()
@@ -234,6 +236,8 @@ public class PlayerController : MonoBehaviour
         _characterController.height = _standHeight;
         _characterController.center = new Vector3(0, _standHeight / 2f, 0);
         _cameraTargetLocalPos = _cameraDefaultLocalPos;
+
+        _vignetteController.AnimateIntensityBase();
     }
 
     public void SetCanCrouching(bool canCrouching) => CanCrouching = canCrouching;

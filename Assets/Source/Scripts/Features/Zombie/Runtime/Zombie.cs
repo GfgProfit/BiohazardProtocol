@@ -12,11 +12,16 @@ public class Zombie : PooledBehaviour<Zombie>
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private ZombieHealthView _healthView;
     [SerializeField] private Animator _animator;
+    [SerializeField] private RandomAudioPlayer _audioPlayer;
+
+    [Header("Damage")]
+    [SerializeField] private int _damage;
 
     [Header("Move")]
     [SerializeField] private float _walkSpeed = 1.5f;
     [SerializeField] private float _reachRadius = 0.25f;
 
+    [Header("Animations")]
     [SerializeField] private string _upperLayerName = "UpperBody";
     [SerializeField] private string _upperAttackBool = "Upper_Attack";
     [SerializeField] private float _upperLayerWeightOn = 1f;
@@ -41,6 +46,7 @@ public class Zombie : PooledBehaviour<Zombie>
     private int _upperLayerIndex = -1;
     private System.Action _attackHitHandler;
     private System.Action _attackFinishedHandler;
+    private Coroutine _upperLayerBlendRoutine;
 
     private void Update()
     {
@@ -86,7 +92,7 @@ public class Zombie : PooledBehaviour<Zombie>
         }
     }
 
-    public void EnableUpperLayer(bool enabled)
+    public void EnableUpperLayer(bool enabled, float fade = 0.8f)
     {
         if (_animator == null)
         {
@@ -95,10 +101,43 @@ public class Zombie : PooledBehaviour<Zombie>
 
         CacheAnimatorLayersIfNeeded();
 
-        if (_upperLayerIndex >= 0)
+        if (_upperLayerIndex < 0)
         {
-            _animator.SetLayerWeight(_upperLayerIndex, enabled ? _upperLayerWeightOn : _upperLayerWeightOff);
+            return;
         }
+
+        float target = enabled ? _upperLayerWeightOn : _upperLayerWeightOff;
+
+        if (_upperLayerBlendRoutine != null)
+        {
+            StopCoroutine(_upperLayerBlendRoutine);
+            _upperLayerBlendRoutine = null;
+        }
+        _upperLayerBlendRoutine = StartCoroutine(BlendUpperLayerWeight(target, fade));
+    }
+
+
+    private IEnumerator BlendUpperLayerWeight(float target, float duration)
+    {
+        float start = _animator.GetLayerWeight(_upperLayerIndex);
+        if (duration <= 0f)
+        {
+            _animator.SetLayerWeight(_upperLayerIndex, target);
+
+            yield break;
+        }
+
+        float t = 0f;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float k = t / duration;
+            _animator.SetLayerWeight(_upperLayerIndex, Mathf.Lerp(start, target, k));
+
+            yield return null;
+        }
+        _animator.SetLayerWeight(_upperLayerIndex, target);
     }
 
     public void SetUpperAttackBool(bool value)
@@ -124,7 +163,7 @@ public class Zombie : PooledBehaviour<Zombie>
     {
         TryReleaseBarricadeSlotIfAny();
         _currentSlots = null;
-
+        _audioPlayer.StopPlaying();
         _currentState = null;
         _walkToBarricadeState = null;
 
@@ -135,9 +174,30 @@ public class Zombie : PooledBehaviour<Zombie>
 
     public void ChangeState(IZombieState newState)
     {
+        if (newState == null)
+        {
+            if (_chaseState != null)
+            {
+                _currentState?.Exit(this);
+                _currentState = _chaseState;
+                _currentState.Enter(this);
+            }
+            else
+            {
+                if (_agent != null) _agent.isStopped = false;
+                _currentState = null;
+            }
+            return;
+        }
+
+        if (_currentState == newState)
+        {
+            return;
+        }
+
         _currentState?.Exit(this);
         _currentState = newState;
-        _currentState?.Enter(this);
+        _currentState.Enter(this);
     }
 
     public void GoToBarricade(BarricadeSlots slots)
@@ -238,15 +298,45 @@ public class Zombie : PooledBehaviour<Zombie>
         }
     }
 
-    public void BeginChase(Transform playerTransform, float repathInterval = 0.2f, float repathMoveThreshold = 0.4f)
+    public void BeginChase(
+        Transform playerTransform,
+        float repathInterval = 0.2f,
+        float repathMoveThreshold = 0.4f,
+        float attackRange = 1.2f,
+        float exitBuffer = 0.25f,
+        LayerMask losObstacles = default,
+        Transform attackOrigin = null)
     {
         if (playerTransform == null)
         {
             return;
         }
 
-        _chaseState = new ZombieChasePlayerState(this, playerTransform, repathInterval, repathMoveThreshold);
-        ChangeState(_chaseState);
+        ZombieChasePlayerState chase = null;
+        ZombieAttackPlayerState attack = new(
+            self: this,
+            target: playerTransform,
+            chaseState: null,
+            attackRange: attackRange,
+            exitBuffer: exitBuffer,
+            damage: _damage,
+            losObstacles: losObstacles,
+            attackOrigin: attackOrigin
+        );
+
+        chase = new ZombieChasePlayerState(
+            self: this,
+            target: playerTransform,
+            attackPlayerState: attack,
+            repathInterval: repathInterval,
+            repathMoveThreshold: repathMoveThreshold,
+            attackRange: attackRange
+        );
+
+        attack.SetChaseState(chase);
+
+        _chaseState = chase;
+        ChangeState(chase);
     }
 
     public void Damage(int dmg)

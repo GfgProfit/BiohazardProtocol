@@ -41,7 +41,7 @@ public class PlankView : MonoBehaviour
 
         if (_audioSource != null && _breakSfx != null)
         {
-            _audioSource.PlayOneShot(_breakSfx);
+            _audioSource.PlayOneShot(_breakSfx, 5);
         }
     }
 

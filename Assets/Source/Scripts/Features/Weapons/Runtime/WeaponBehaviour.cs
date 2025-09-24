@@ -44,8 +44,8 @@ public class WeaponBehaviour : MonoBehaviour
 
         _context = new WeaponContextAdapter(_weaponManager);
         _effects = new WeaponEffects(_barrelTransform, _animator, _audioSource);
-        _fire = new WeaponFire(_context, _effects, _config, _barrelTransform);
-        _reload = new WeaponReload(_effects, _config);
+        _fire = new WeaponFire(_context, _effects, _config, _barrelTransform, _weaponManager);
+        _reload = new WeaponReload(_effects, _config, _weaponManager);
     }
 
     private void OnEnable()
@@ -172,6 +172,7 @@ public class WeaponBehaviour : MonoBehaviour
         _isReload = true;
         _context.Switcher.CanSwitch = false;
         _canSwitch = false;
+        _weaponManager.InteractDetector.CanInteract = false;
 
         yield return _reload.Run(this);
 
@@ -179,6 +180,7 @@ public class WeaponBehaviour : MonoBehaviour
         _isReload = false;
         _context.Switcher.CanSwitch = true;
         _canSwitch = true;
+        _weaponManager.InteractDetector.CanInteract = true;
 
         _context.SetAmmoText(BuildAmmoText());
         _reload.RefillMagazine();
