@@ -76,6 +76,7 @@ public sealed class WaveController : MonoBehaviour
                 _zones.ZoneOpened -= OnOpened;
 
                 allowed = GetAllowedSpawns();
+
                 if (allowed.Count == 0)
                 {
                     yield return null;
@@ -93,6 +94,7 @@ public sealed class WaveController : MonoBehaviour
         }
 
         _audioSource.PlayOneShot(_waveEndClip);
+
         yield return PlayInOutWaveClearedAnimation();
 
         _countdownTimerView.StartInAnimation();
@@ -118,15 +120,20 @@ public sealed class WaveController : MonoBehaviour
 
     private void SpawnOne(List<WaveSpawnData> allowed)
     {
-        if (allowed == null || allowed.Count == 0) return;
+        if (allowed == null || allowed.Count == 0)
+        {
+            return;
+        }
 
-        var data = allowed[UnityEngine.Random.Range(0, allowed.Count)];
-        if (data == null || data.BarricadeController == null) return;
+        WaveSpawnData data = allowed[UnityEngine.Random.Range(0, allowed.Count)];
 
-        var controller = data.BarricadeController;
-        var slots = controller.Slots != null
-            ? controller.Slots
-            : controller.GetComponent<BarricadeSlots>();
+        if (data == null || data.BarricadeController == null)
+        {
+            return;
+        }
+
+        BarricadeController controller = data.BarricadeController;
+        BarricadeSlots slots = controller.Slots != null ? controller.Slots : controller.GetComponent<BarricadeSlots>();
 
         if (slots == null)
         {
@@ -134,26 +141,21 @@ public sealed class WaveController : MonoBehaviour
             return;
         }
 
-        // 1) Берём зомби из пула
         Zombie zombie = _pool.Get();
 
-        // 2) Ставим на точку спавна (если есть Override — используем её, иначе SpawnPoint из контроллера)
         Transform spawnPoint = controller.SpawnPoint;
 
         if (spawnPoint != null)
+        {
             zombie.SetSpawnPoint(spawnPoint);
+        }
 
-        // 3) Готовим состояние атаки баррикады (заглушка с кулдауном и очередью перелаза)
-        //    Важно: передаём именно BarricadeController.
-        zombie.SetAttackState(new ZombieAttackBarricadeState(zombie, controller, 2f, "Attack"));
+        zombie.SetAttackState(new ZombieAttackBarricadeState(zombie, controller, 2f));
 
-        // 4) Отправляем зомби к ДУГЕ слотов этой баррикады (занимает лучший от центра; апгрейдится)
         zombie.GoToBarricade(slots);
 
-        // 5) Подписка на смерть, чтобы убирать мусор и возвращать в пул
         zombie.Died += OnZombieDeath;
 
-        // 6) Учёт волны
         _spawnedThisWave++;
         _aliveZombies++;
     }

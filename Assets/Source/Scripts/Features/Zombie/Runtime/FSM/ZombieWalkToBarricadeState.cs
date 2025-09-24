@@ -17,9 +17,12 @@ public class ZombieWalkToBarricadeState : IZombieState
 
     public void Enter(Zombie zombie)
     {
-        if (_slots == null || _self == null) return;
+        if (_slots == null || _self == null)
+        {
+            return;
+        }
 
-        if (_slots.TryReserveBest(_self, out _mySlot, out var pos))
+        if (_slots.TryReserveBest(_self, out _mySlot, out Vector3 pos))
         {
             _currentTarget = pos;
         }
@@ -41,24 +44,26 @@ public class ZombieWalkToBarricadeState : IZombieState
 
     public void Tick(Zombie zombie)
     {
-        if (_slots == null) return;
+        if (_slots == null)
+        {
+            return;
+        }
 
-        // Если у нас уже есть слот — поддерживаем цель и пробуем апгрейд
         if (_mySlot >= 0)
         {
-            // Актуализируем позицию слота (на случай редакторских подвижек)
-            var desired = _slots.GetSlotPosition(_mySlot);
+            Vector3 desired = _slots.GetSlotPosition(_mySlot);
+
             if ((desired - _currentTarget).sqrMagnitude > 0.02f)
             {
                 _currentTarget = desired;
                 _self.SetDestinationToPoint(_currentTarget);
             }
 
-            // Периодически пробуем улучшить на более «центральный»
             _retryTimer -= Time.deltaTime;
+
             if (_retryTimer <= 0f)
             {
-                if (_slots.TryUpgrade(_self, _mySlot, out var betterSlot, out var betterPos))
+                if (_slots.TryUpgrade(_self, _mySlot, out var betterSlot, out Vector3 betterPos))
                 {
                     _mySlot = betterSlot;
                     _currentTarget = betterPos;
@@ -67,29 +72,29 @@ public class ZombieWalkToBarricadeState : IZombieState
                 _retryTimer = _slots.RetryReserveInterval;
             }
 
-            // Дошли — переключаемся на атаку/перелаз
             if (_self.IsNear(_currentTarget, 0.5f))
             {
-                _self.OnReachedBarricadeSlot(); // тут твой переход в Atk/Climb
+                _self.OnReachedBarricadeSlot();
             }
+
             return;
         }
 
-        // Мы в ожидании — периодически пытаемся занять лучший доступный слот
         _retryTimer -= Time.deltaTime;
+
         if (_retryTimer <= 0f)
         {
-            if (_slots.TryReserveBest(_self, out _mySlot, out var pos))
+            if (_slots.TryReserveBest(_self, out _mySlot, out Vector3 pos))
             {
                 _currentTarget = pos;
                 _self.SetDestinationToPoint(_currentTarget);
             }
             else
             {
-                // Обновим точку ожидания, чтобы «хвост» не слёживался
                 _currentTarget = _slots.GetWaitingPointFor(_self);
                 _self.SetDestinationToPoint(_currentTarget);
             }
+
             _retryTimer = _slots.RetryReserveInterval;
         }
     }

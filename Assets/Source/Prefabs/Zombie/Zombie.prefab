@@ -1079,6 +1079,10 @@ MonoBehaviour:
   _animator: {fileID: 5215136475916788508}
   _walkSpeed: 2
   _reachRadius: 0.25
+  _upperLayerName: UpperLayer
+  _upperAttackBool: Attack
+  _upperLayerWeightOn: 1
+  _upperLayerWeightOff: 0
   _bodies:
   - {fileID: 5526982102911617687}
   - {fileID: 2859663580176621796}

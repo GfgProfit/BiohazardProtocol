@@ -6,43 +6,41 @@ using UnityEngine.AI;
 #pragma warning disable IDE0079
 #pragma warning disable UNT0008
 
-// Если используешь Object Pool — оставь как есть.
-// Иначе можешь заменить на обычный MonoBehaviour.
 public class Zombie : PooledBehaviour<Zombie>
 {
     [Header("Refs")]
     [SerializeField] private NavMeshAgent _agent;
-    [SerializeField] private ZombieHealthView _healthView; // опционально
+    [SerializeField] private ZombieHealthView _healthView;
     [SerializeField] private Animator _animator;
 
     [Header("Move")]
     [SerializeField] private float _walkSpeed = 1.5f;
     [SerializeField] private float _reachRadius = 0.25f;
 
+    [SerializeField] private string _upperLayerName = "UpperBody";
+    [SerializeField] private string _upperAttackBool = "Upper_Attack";
+    [SerializeField] private float _upperLayerWeightOn = 1f;
+    [SerializeField] private float _upperLayerWeightOff = 0f;
+
     [Header("Ragdoll")]
     [SerializeField] private Rigidbody[] _bodies;
     [SerializeField] private ZombieHitScan[] _hitScans;
 
-    // === Твои сервисы (инъекции опциональны; оставляю, как у тебя было) ===
+    public NavMeshAgent Agent => _agent;
+    public System.Action<Zombie> Died;
+
     [Inject] private HealthModel _health;
     [Inject] private WaveService _waves;
     [Inject] private IMoney _moneyService;
 
-    // === FSM ===
     private IZombieState _currentState;
-
-    // Состояния (минимум: Spawn/Walk/Attack). Здесь храню только Walk.
     private ZombieWalkToBarricadeState _walkToBarricadeState;
     private ZombieChasePlayerState _chaseState;
-    private IZombieState _attackBarricadeState; // задай снаружи, если уже есть
-
-    // === Текущая цель баррикады ===
-    private BarricadeSlots _currentSlots; // нужно, чтобы уметь освободить слот при смерти/деспауне
-
-    public NavMeshAgent Agent => _agent;
-    public System.Action<Zombie> Died;
-
-    // ================= Mono =================
+    private IZombieState _attackBarricadeState;
+    private BarricadeSlots _currentSlots;
+    private int _upperLayerIndex = -1;
+    private System.Action _attackHitHandler;
+    private System.Action _attackFinishedHandler;
 
     private void Update()
     {
@@ -64,8 +62,10 @@ public class Zombie : PooledBehaviour<Zombie>
         _animator.enabled = true;
         _agent.enabled = true;
 
-        // ХП/визуал — по желанию
-        if (_waves != null && _health != null) _health.Reset(_waves.CurrentBaseHP);
+        if (_waves != null && _health != null)
+        {
+            _health.Reset(_waves.CurrentBaseHP);
+        }
 
         _healthView?.Setup(_health);
 
@@ -78,9 +78,50 @@ public class Zombie : PooledBehaviour<Zombie>
         EnsureOnNavMesh();
     }
 
+    private void CacheAnimatorLayersIfNeeded()
+    {
+        if (_animator != null && _upperLayerIndex < 0)
+        {
+            _upperLayerIndex = _animator.GetLayerIndex(_upperLayerName);
+        }
+    }
+
+    public void EnableUpperLayer(bool enabled)
+    {
+        if (_animator == null)
+        {
+            return;
+        }
+
+        CacheAnimatorLayersIfNeeded();
+
+        if (_upperLayerIndex >= 0)
+        {
+            _animator.SetLayerWeight(_upperLayerIndex, enabled ? _upperLayerWeightOn : _upperLayerWeightOff);
+        }
+    }
+
+    public void SetUpperAttackBool(bool value)
+    {
+        if (_animator == null)
+        {
+            return;
+        }
+
+        _animator.SetBool(_upperAttackBool, value);
+    }
+
+    public void BindAttackHit(System.Action onHit) => _attackHitHandler = onHit;
+    public void UnbindAttackHit() => _attackHitHandler = null;
+
+    public void BindAttackFinished(System.Action onFinish) => _attackFinishedHandler = onFinish;
+    public void UnbindAttackFinished() => _attackFinishedHandler = null;
+
+    public void Anim_AttackHit() { _attackHitHandler?.Invoke(); }
+    public void Anim_AttackFinished() { _attackFinishedHandler?.Invoke(); }
+
     public override void OnDespawned()
     {
-        // Освободить слот, если был
         TryReleaseBarricadeSlotIfAny();
         _currentSlots = null;
 
@@ -92,8 +133,6 @@ public class Zombie : PooledBehaviour<Zombie>
 
     public void JumpAnimation() => _animator.SetTrigger("Jump");
 
-    // ================= FSM helpers =================
-
     public void ChangeState(IZombieState newState)
     {
         _currentState?.Exit(this);
@@ -101,7 +140,6 @@ public class Zombie : PooledBehaviour<Zombie>
         _currentState?.Enter(this);
     }
 
-    // Вызови это, когда выбираешь баррикаду, к которой зомби должен подойти.
     public void GoToBarricade(BarricadeSlots slots)
     {
         _currentSlots = slots;
@@ -110,13 +148,11 @@ public class Zombie : PooledBehaviour<Zombie>
         _animator.SetBool("Walk", true);
     }
 
-    // Если у тебя есть готовое состояние атаки — можешь поставить его в этот зомби:
     public void SetAttackState(IZombieState attackState)
     {
         _attackBarricadeState = attackState;
     }
 
-    // Коллбек из Walking-состояния: «я встал в свой слот»
     public void OnReachedBarricadeSlot()
     {
         if (_attackBarricadeState != null)
@@ -125,18 +161,12 @@ public class Zombie : PooledBehaviour<Zombie>
         }
         else
         {
-            // Заглушка: просто стоим, смотрим на баррикаду
-            StopAndFace(_currentSlots != null
-                ? _currentSlots.transform.position
-                : transform.position + transform.forward * 2f);
+            StopAndFace(_currentSlots != null ? _currentSlots.transform.position : transform.position + transform.forward * 2f);
         }
     }
 
-    // ================= Навигация / утилиты =================
-
     private void SetupAgentTuning()
     {
-        // Небольшая рандомизация — меньше локальных «пробок»
         _agent.stoppingDistance = 0.15f;
         _agent.avoidancePriority = Random.Range(20, 80);
         _agent.obstacleAvoidanceType = ObstacleAvoidanceType.HighQualityObstacleAvoidance;
@@ -148,26 +178,29 @@ public class Zombie : PooledBehaviour<Zombie>
 
     private bool EnsureOnNavMesh(float maxSnap = 1.25f, int areaMask = NavMesh.AllAreas)
     {
-        if (_agent == null || !_agent.enabled) return false;
+        if (_agent == null || !_agent.enabled)
+        {
+            return false;
+        }
 
-        // В новых Unity есть _agent.isOnNavMesh — проверь, если доступно.
-        // Универсально: пробуем семплить рядом с текущей позицией.
         if (NavMesh.SamplePosition(transform.position, out var hit, maxSnap, areaMask))
         {
-            _agent.Warp(hit.position);  // принудительно «приклеиваемся»
+            _agent.Warp(hit.position); 
             return true;
         }
+
         return false;
     }
 
     public void SetDestinationToPoint(Vector3 worldPoint)
     {
-        if (_agent == null || !_agent.enabled) return;
+        if (_agent == null || !_agent.enabled)
+        {
+            return;
+        }
 
-        // если не на сетке — попробуем «приклеиться»
         if (!EnsureOnNavMesh())
         {
-            // не смогли — не дергаем SetDestination, чтобы не ловить ошибку
             return;
         }
 
@@ -177,9 +210,11 @@ public class Zombie : PooledBehaviour<Zombie>
 
     public bool IsNear(Vector3 point, float radius)
     {
-        var p = transform.position;
+        Vector3 p = transform.position;
+
         float dx = p.x - point.x;
         float dz = p.z - point.z;
+
         return (dx * dx + dz * dz) <= radius * radius;
     }
 
@@ -194,7 +229,9 @@ public class Zombie : PooledBehaviour<Zombie>
         }
 
         Vector3 dir = (lookAt - transform.position);
+
         dir.y = 0f;
+
         if (dir.sqrMagnitude > 0.0001f)
         {
             transform.rotation = Quaternion.LookRotation(dir);
@@ -203,17 +240,17 @@ public class Zombie : PooledBehaviour<Zombie>
 
     public void BeginChase(Transform playerTransform, float repathInterval = 0.2f, float repathMoveThreshold = 0.4f)
     {
-        if (playerTransform == null) return;
+        if (playerTransform == null)
+        {
+            return;
+        }
 
         _chaseState = new ZombieChasePlayerState(this, playerTransform, repathInterval, repathMoveThreshold);
         ChangeState(_chaseState);
     }
 
-    // ================= Урон/смерть =================
-
     public void Damage(int dmg)
     {
-        // Визуал может анимировать, потом дернуть Death().
         _healthView?.Damage(dmg, Death);
     }
 
@@ -234,7 +271,6 @@ public class Zombie : PooledBehaviour<Zombie>
 
         _moneyService.AddMoney(Random.Range(100, 200));
 
-        // ВАЖНО: освободить слот, чтобы другой мог занять центр/апгрейднуться
         TryReleaseBarricadeSlotIfAny();
         StartCoroutine(WaitReturnToPool());
 
@@ -244,7 +280,7 @@ public class Zombie : PooledBehaviour<Zombie>
     private IEnumerator WaitReturnToPool()
     {
         yield return new WaitForSeconds(2.5f);
-        ReturnToPool(); // если без пула — Destroy(gameObject);
+        ReturnToPool();
     }
 
     private void TryReleaseBarricadeSlotIfAny()
@@ -255,27 +291,34 @@ public class Zombie : PooledBehaviour<Zombie>
         }
     }
 
-    // ================= API совместимости (из твоего старого кода) =================
-
-    // Если где-то ожидается "SetDestinationToTarget(Transform)" — оставим обёртку:
     public void SetDestinationToTarget(Transform target)
     {
-        if (target == null) return;
+        if (target == null)
+        {
+            return;
+        }
+
         SetDestinationToPoint(target.position);
     }
 
-    // Если где-то ожидается "SetSpawnPoint" — оставим:
     public void SetSpawnPoint(Transform point)
     {
-        if (point == null) return;
-        if (_agent != null) _agent.enabled = false;
+        if (point == null)
+        {
+            return;
+        }
+
+        if (_agent != null)
+        {
+            _agent.enabled = false;
+        }
 
         transform.SetPositionAndRotation(point.position, point.rotation);
 
         if (_agent != null)
         {
             _agent.enabled = true;
-            // warp в текущую позицию, затем прижать к сетке
+
             _agent.Warp(transform.position);
             EnsureOnNavMesh();
         }
