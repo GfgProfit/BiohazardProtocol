@@ -22,7 +22,7 @@ public class HorizontalSelector : MonoBehaviour
     [SerializeField] private List<string> _contents;
     private readonly List<Image> _viewItems = new();
 
-    private void Awake()
+    private void Start()
     {
         _leftArrowButton.OnClick.AddListener(() => DecrementIndex());
         _rightArrowButton.OnClick.AddListener(() => IncrementIndex());

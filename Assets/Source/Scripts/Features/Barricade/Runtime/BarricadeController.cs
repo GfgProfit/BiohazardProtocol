@@ -21,10 +21,9 @@ public class BarricadeController : MonoBehaviour
 
     private int _nextPlankIndex = 0;
 
-    // === фиксы зацикливания ===
     private readonly Queue<Zombie> _climbQueue = new();
-    private readonly HashSet<Zombie> _queued = new();   // уже стоят в очереди
-    private readonly HashSet<Zombie> _climbed = new();  // уже перелезли
+    private readonly HashSet<Zombie> _queued = new();
+    private readonly HashSet<Zombie> _climbed = new();
     private Zombie _currentClimber = null;
     private bool _isClimbing = false;
 
@@ -46,11 +45,25 @@ public class BarricadeController : MonoBehaviour
         _plankViews = GetComponentsInChildren<PlankView>(includeInactive: true);
     }
 
+    public void BuildPlank()
+    {
+        _nextPlankIndex--;
+        PlankView pv = _plankViews[_nextPlankIndex];
+        pv.gameObject.SetActive(true);
+        pv.SetBroken(false);
+
+        pv.transform.DOLocalMove(pv.UpPoint.localPosition, 0.15f).SetEase(Ease.InCubic)
+            .OnComplete(() =>
+            {
+                pv.transform.DOLocalMove(pv.RepairedPosition, 0.15f).SetEase(Ease.OutCubic);
+            });
+    }
+
     public bool TryHitOnePlank()
     {
         if (IsOpen) return false;
 
-        var pv = _plankViews[_nextPlankIndex];
+        PlankView pv = _plankViews[_nextPlankIndex];
         if (pv != null && pv.gameObject.activeSelf)
         {
             pv.Break();
@@ -60,18 +73,14 @@ public class BarricadeController : MonoBehaviour
         return true;
     }
 
-    // === Главное: защищаемся от повторных заявок на перелаз ===
     public void RequestClimb(Zombie z)
     {
         if (!IsOpen || z == null) return;
 
-        // если уже перелез — игнор
         if (_climbed.Contains(z)) return;
 
-        // если уже в очереди или прямо сейчас прыгает — тоже игнор
         if (_queued.Contains(z) || _currentClimber == z) return;
 
-        // освобождаем его слот (пусть другой займёт центр)
         if (_slots != null) _slots.Release(z);
 
         _queued.Add(z);
@@ -90,7 +99,6 @@ public class BarricadeController : MonoBehaviour
         _isClimbing = true;
         JumpOverBarricade(_currentClimber, () =>
         {
-            // помечаем как уже перелезшего
             _climbed.Add(_currentClimber);
 
             _currentClimber = null;
@@ -115,10 +123,8 @@ public class BarricadeController : MonoBehaviour
             .SetEase(Ease.InOutSine)
             .OnComplete(() =>
             {
-                // 1) Ставим точное положение к финальной точке
                 target.transform.position = _point4.position;
 
-                // 2) Включаем агент и ПРИЖИМАЕМ к NavMesh до любого SetDestination
                 target.Agent.enabled = true;
 
                 // аккуратно приклеиться: семплим рядом с point4
@@ -128,15 +134,12 @@ public class BarricadeController : MonoBehaviour
                 }
                 else
                 {
-                    // крайний случай: попытаться снапнуть в небольшой радиус
-                    // (или логнуть предупреждение)
                     Debug.LogWarning("[Barricade] Не удалось найти NavMesh рядом с точкой приземления.");
                 }
 
-                // 3) Теперь можно задавать цель: преследование игрока или fallback-точка
                 if (_pointToBarricade != null)
                 {
-                    target.BeginChase(_pointToBarricade); // живое преследование Transform
+                    target.BeginChase(_pointToBarricade);
                 }
                 else if (_pointToBarricade != null)
                 {
@@ -147,7 +150,6 @@ public class BarricadeController : MonoBehaviour
             });
     }
 
-    // вызывать при смерти/деспауне, чтобы очистить следы
     public void NotifyZombieGone(Zombie z)
     {
         if (z == null) return;

@@ -10,6 +10,7 @@ public sealed class WaveController : MonoBehaviour
     [SerializeField] private WaveSpawnData[] _waveSpawnDatas;
 
     [Space]
+    [SerializeField] private bool _canSpawn = false;
     [SerializeField] private WaveStartAnimations _newWaveAnimations;
     [SerializeField] private WaveClearedAnimations _clearedWaveAnimations;
     [SerializeField] private WaveCountdownTimerView _countdownTimerView;
@@ -17,7 +18,6 @@ public sealed class WaveController : MonoBehaviour
     [SerializeField] private AudioClip _waveStartClip;
     [SerializeField] private AudioClip _waveEndClip;
     [SerializeField] private AudioClip _tickClock;
-
     [Space]
     [SerializeField] private float _spawnCooldown = 0.5f;
 
@@ -33,6 +33,11 @@ public sealed class WaveController : MonoBehaviour
 
     private void Awake()
     {
+        if (!_canSpawn)
+        {
+            return;
+        }
+
         StartNextWave();
     }
 
@@ -47,7 +52,7 @@ public sealed class WaveController : MonoBehaviour
         _waveService.NextWave();
         _spawnedThisWave = 0;
         _aliveZombies = 0;
-
+        _newWaveAnimations.WaveText.text = $"<color=#4BE584>NEW WAVE:</color> {_waveService.WaveIndex}";
         _maxZombiesInWave = Mathf.Min(50, 8 + _waveService.WaveIndex * 2);
 
         _audioSource.PlayOneShot(_waveStartClip);

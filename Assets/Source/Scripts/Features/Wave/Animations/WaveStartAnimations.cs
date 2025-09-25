@@ -1,5 +1,6 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class WaveStartAnimations : MonoBehaviour
@@ -7,9 +8,12 @@ public class WaveStartAnimations : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private RectTransform _selfRectTransform;
     [SerializeField] private GameObject _root;
+    [SerializeField] private TMP_Text _waveText;
 
     [Space]
     [SerializeField] private float _animationDuration = 0.25f;
+
+    public TMP_Text WaveText => _waveText;
 
     private Sequence _sequence;
     private Coroutine _waitFramesRoutine;

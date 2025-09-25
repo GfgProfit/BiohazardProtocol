@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5d42b6420626b1a44839d8b205e274f7, type: 2}
-  m_sharedMaterial: {fileID: -6926319217153242524, guid: 5d42b6420626b1a44839d8b205e274f7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ad3bd70008689c418483dba1db4c2c2, type: 2}
+  m_sharedMaterial: {fileID: 4299220722095240433, guid: 5ad3bd70008689c418483dba1db4c2c2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 16
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -209,7 +209,7 @@ GameObject:
   - component: {fileID: 1698500367953423050}
   - component: {fileID: 1146944692641171712}
   - component: {fileID: 52550371018732847}
-  - component: {fileID: 7814050606577171623}
+  - component: {fileID: 1425570143640980565}
   m_Layer: 5
   m_Name: Horizontal Selector
   m_TagString: Untagged
@@ -276,7 +276,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7814050606577171623
+--- !u!114 &1425570143640980565
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,14 +285,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2614391835900772667}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb5de36eaa5a49e478bdd9809cf58843, type: 3}
+  m_Script: {fileID: 11500000, guid: 02e58dedb95a43e4f85f9d82e24defcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _leftArrowButton: {fileID: 819181312375204405}
   _rightArrowButton: {fileID: 6004097348136969245}
   _currentContentText: {fileID: 6316325120205446594}
   _horizontalLayoutGroup: {fileID: 869974876254602974}
-  _itemPrefab: {fileID: 669795276272142438, guid: 0f7d03a0a6d439349b873f1f5fefc983, type: 3}
+  _itemPrefab: {fileID: 669795276272142438, guid: 2c29139f526529e4bad7e289c27ab0a0, type: 3}
   _space: 10
   _animationDuration: 0.2
   _contents: []
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3704161502047197026}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35dcf20b01ddcbe40a2c9c066c4d4110, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ca21d0f6e6043e4a9d921d2ee148788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 542824025755709334}
@@ -595,8 +595,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5d42b6420626b1a44839d8b205e274f7, type: 2}
-  m_sharedMaterial: {fileID: -6926319217153242524, guid: 5d42b6420626b1a44839d8b205e274f7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5ad3bd70008689c418483dba1db4c2c2, type: 2}
+  m_sharedMaterial: {fileID: 4299220722095240433, guid: 5ad3bd70008689c418483dba1db4c2c2, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -626,7 +626,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 16
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -723,7 +723,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9147864285048579470}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35dcf20b01ddcbe40a2c9c066c4d4110, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ca21d0f6e6043e4a9d921d2ee148788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 3722368264745647323}

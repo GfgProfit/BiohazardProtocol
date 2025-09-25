@@ -1,7 +1,7 @@
 using DG.Tweening;
-using EPOOutline;
 using TMPro;
 using UnityEngine;
+using EPOOutline;
 
 public class InteractDetector : MonoBehaviour
 {
@@ -25,23 +25,23 @@ public class InteractDetector : MonoBehaviour
     private IInteractable _previousTarget;
     private float _targetAlpha = 0f;
 
+    private IHoldInteractable _holdingTarget;
+
     private void Awake()
     {
         if (_camera == null)
-        {
             _camera = Camera.main;
-        }
 
         if (_promptGroup != null)
-        {
             _promptGroup.alpha = 0f;
-        }
     }
 
     private void Update()
     {
         if (!CanInteract)
         {
+            StopHoldingIfAny();
+
             if (_previousTarget != null)
             {
                 ToggleOutline(_previousTarget, false);
@@ -59,13 +59,55 @@ public class InteractDetector : MonoBehaviour
         }
 
         Detect();
+
+        IHoldInteractable holdable = _currentTarget as IHoldInteractable;
+
+        if (holdable != null && _currentTarget != null && _currentTarget.CanInteract)
+        {
+            if (Input.GetKeyDown(_interactKey))
+            {
+                _holdingTarget = holdable;
+                _holdingTarget.BeginHold();
+            }
+
+            if (Input.GetKey(_interactKey))
+            {
+                _holdingTarget?.TickHold(Time.deltaTime);
+            }
+
+            if (Input.GetKeyUp(_interactKey))
+            {
+                _holdingTarget?.EndHold();
+                _holdingTarget = null;
+
+                if (_promptTransform != null)
+                {
+                    AnimatePingPongPopUp(_promptTransform, new Vector3(0.9f, 0.9f, 0.9f), Vector3.one, 0.1f);
+                }
+            }
+        }
+        else
+        {
+            if (_currentTarget != null && _currentTarget.CanInteract && Input.GetKeyDown(_interactKey))
+            {
+                _currentTarget.Interact();
+                AnimatePingPongPopUp(_promptTransform, new Vector3(0.9f, 0.9f, 0.9f), Vector3.one, 0.1f);
+            }
+        }
+    }
+
+    private void StopHoldingIfAny()
+    {
+        if (_holdingTarget != null)
+        {
+            _holdingTarget.EndHold();
+            _holdingTarget = null;
+        }
     }
 
     private void Detect()
     {
-        Ray ray = _camera != null ?
-            _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f))
-            : new Ray(transform.position, transform.forward);
+        Ray ray = _camera != null ? _camera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)) : new Ray(transform.position, transform.forward);
 
         _currentTarget = null;
 
@@ -82,12 +124,18 @@ public class InteractDetector : MonoBehaviour
 
         if (_currentTarget != _previousTarget)
         {
+            if (_holdingTarget != null && !ReferenceEquals(_holdingTarget, _currentTarget))
+            {
+                _holdingTarget.EndHold();
+                _holdingTarget = null;
+            }
+
             ToggleOutline(_previousTarget, false);
             ToggleOutline(_currentTarget, true);
             _previousTarget = _currentTarget;
         }
 
-        _targetAlpha = _currentTarget != null ? 1f : 0f;
+        _targetAlpha = (_currentTarget != null && _currentTarget.CanInteract) ? 1f : 0f;
 
         if (_promptGroup != null)
         {
@@ -96,24 +144,23 @@ public class InteractDetector : MonoBehaviour
 
             if (_currentTarget != null)
             {
-                string text = string.Format($"{_currentTarget.Text}",
-                    $"<color=#FFD800>$:</color> {Utils.FormatNumber(_currentTarget.Money, '.')}");
-                _text.text = text;
+                string str1 = $"{_currentTarget.Text}";
+                string str2 = $"<color=#FFD800>$: </color>{_currentTarget.Money}";
+                _text.text = string.Format(str1, str2);
             }
-        }
-
-        if (_currentTarget != null && Input.GetKeyDown(_interactKey))
-        {
-            _currentTarget.Interact();
-            AnimatePingPongPopUp(_promptTransform, new Vector3(0.9f, 0.9f, 0.9f), Vector3.one, 0.1f);
         }
     }
 
     private void AnimatePingPongPopUp(RectTransform rectTransform, Vector3 from, Vector3 to, float halfDuration)
     {
+        if (rectTransform == null)
+        {
+            return;
+        }
+
         rectTransform.DOScale(from, halfDuration)
-               .OnComplete(() => rectTransform.DOScale(to, halfDuration))
-               .SetEase(Ease.OutBack);
+            .OnComplete(() => rectTransform.DOScale(to, halfDuration))
+            .SetEase(Ease.OutBack);
     }
 
     private bool TryGetInteractable(Collider col, out IInteractable interactable)
@@ -129,14 +176,12 @@ public class InteractDetector : MonoBehaviour
         }
 
         interactable = col.GetComponentInParent<IInteractable>();
-
         if (interactable != null)
         {
             return true;
         }
 
         interactable = col.GetComponentInChildren<IInteractable>();
-
         return interactable != null;
     }
 
@@ -148,13 +193,11 @@ public class InteractDetector : MonoBehaviour
         }
 
         MonoBehaviour mono = target as MonoBehaviour;
-
         if (mono == null)
         {
             return;
         }
 
-        
         if (!mono.TryGetComponent(out Outlinable outline))
         {
             outline = mono.GetComponentInChildren<Outlinable>();

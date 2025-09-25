@@ -4,6 +4,10 @@ public class PlankView : MonoBehaviour
 {
     [Header("What to disable when broken")]
     [SerializeField] private GameObject[] _disableOnBreak;
+    [SerializeField] private Quaternion _selfLocalRepairedRotation;
+    [SerializeField] private Vector3 _selfLocalRepairedPosition;
+    [SerializeField] private Transform _brokenPoint;
+    [SerializeField] private Transform _upPoint;
 
     [Header("Optional FX")]
     [SerializeField] private ParticleSystem _breakVfx;
@@ -13,6 +17,10 @@ public class PlankView : MonoBehaviour
     private bool _broken;
 
     public bool IsBroken => _broken;
+    public Quaternion RepairedRotation => _selfLocalRepairedRotation;
+    public Vector3 RepairedPosition => _selfLocalRepairedPosition;
+    public Transform BrokenPoint => _brokenPoint;
+    public Transform UpPoint => _brokenPoint;
 
     public void Break()
     {
@@ -21,7 +29,7 @@ public class PlankView : MonoBehaviour
             return;
         }
 
-        _broken = true;
+        SetBroken(true);
 
         if (_disableOnBreak != null)
         {
@@ -29,6 +37,7 @@ public class PlankView : MonoBehaviour
             {
                 if (go != null)
                 {
+                    go.transform.position = _brokenPoint.position;
                     go.SetActive(false);
                 }
             }
@@ -45,10 +54,14 @@ public class PlankView : MonoBehaviour
         }
     }
 
+    public void SetBroken(bool value) => _broken = value;
+
     [ContextMenu("Set Self")]
     public void SetSelf()
     {
         _disableOnBreak = new GameObject[1];
         _disableOnBreak[0] = gameObject;
+        _selfLocalRepairedPosition = transform.localPosition;
+        _selfLocalRepairedRotation = transform.localRotation;
     }
 }

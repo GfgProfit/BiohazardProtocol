@@ -21,7 +21,7 @@ public class MoneySound : MonoBehaviour
         _moneyService.OnSpended -= PlaySound;
     }
 
-    private void PlaySound()
+    public void PlaySound()
     {
         _audioSource.PlayOneShot(_moneySpendedClip);
     }

@@ -19,14 +19,26 @@ public class CustomButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     [field: SerializeField] public UnityEvent OnClick { get; private set; } = new UnityEvent();
 
+    private void OnEnable()
+    {
+        _buttonFadeImage.color = new Color(255.0f, 255.0f, 255.0f, 0.0f);
+        _buttonImage.color = new Color(0.0f, 0.0f, 0.0f, 0.588f);
+        _buttonText.color = Color.white;
+        _upLineImage.rectTransform.localPosition = new Vector3(225.0f, 23.5f, 0);
+        _downLineImage.rectTransform.localPosition = new Vector3(-225.0f, -23.5f, 0);
+        _upLineImage.fillAmount = 0;
+        _downLineImage.fillAmount = 0;
+    }
+
     private void OnDisable()
     {
-        if (!this || gameObject == null || !gameObject.activeInHierarchy)
-        {
-            return;
-        }
-
-        ResetToExitState();
+        _buttonFadeImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+        _buttonImage.color = new Color(0.0f, 0.0f, 0.0f, 0.588f);
+        _buttonText.color = Color.white;
+        _upLineImage.rectTransform.localPosition = new Vector3(225.0f, 23.5f, 0);
+        _downLineImage.rectTransform.localPosition = new Vector3(-225.0f, -23.5f, 0);
+        _upLineImage.fillAmount = 0;
+        _downLineImage.fillAmount = 0;
     }
 
     public void OnPointerClick(PointerEventData eventData)

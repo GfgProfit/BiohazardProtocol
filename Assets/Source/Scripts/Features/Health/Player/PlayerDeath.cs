@@ -28,6 +28,9 @@ public class PlayerDeath : MonoBehaviour
     [SerializeField] private GlobalAudioFader _globalAudioFader;
     [SerializeField] private CanvasGroup _buttonToMainMenu;
     [SerializeField] private PauseMenu _pauseMenu;
+    [SerializeField] private GameObject _pausePanel;
+    [SerializeField] private GameObject _confirmPanel;
+    [SerializeField] private GameObject _optionsPanel;
 
     [Space]
     [SerializeField] private MapItem _mapItem;
@@ -67,6 +70,9 @@ public class PlayerDeath : MonoBehaviour
         Destroy(_playerHurtSound);
         Destroy(_playerHeartBeat);
         Destroy(_pauseMenu.gameObject);
+        Destroy(_pausePanel);
+        Destroy(_confirmPanel);
+        Destroy(_optionsPanel);
 
         StartCoroutine(_weaponManager.SwitchWeapon.GetCurrentWeapon().HideWeapon());
         _audioSource.PlayOneShot(_endGameClip);
