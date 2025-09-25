@@ -19,20 +19,13 @@ public class PlayerHealthBarView : MonoBehaviour
 
     [Header("Options")]
     [SerializeField] private bool _instantWhiteOnHeal = true;
-    [SerializeField] private bool _autoFindRefs = true;
 
     private float _lastPercent = -1f;
     private Tween _redTween, _whiteTween;
     private Sequence _whiteSeq;
 
-    private void Reset()
-    {
-        TryAutoWire();
-    }
-
     private void Awake()
     {
-        if (_autoFindRefs) TryAutoWire();
         EnsureFilled(_hpFill);
         EnsureFilled(_hpFillWhite);
 
@@ -160,42 +153,6 @@ public class PlayerHealthBarView : MonoBehaviour
         }
 
         return Mathf.Clamp01((float)h.Current / h.Max);
-    }
-
-    private void TryAutoWire()
-    {
-        if (_player == null)
-        {
-            _player = GetComponentInParent<PlayerHealth>() ?? FindAnyObjectByType<PlayerHealth>();
-        }
-
-        if (_hpFill == null || _hpFillWhite == null)
-        {
-            var images = GetComponentsInChildren<Image>(true);
-            foreach (var img in images)
-            {
-                string n = img.name.ToLowerInvariant();
-
-                if (_hpFill == null && (n.Contains("red") || n.Contains("hpfill")))
-                {
-                    _hpFill = img;
-                }
-                else if (_hpFillWhite == null && (n.Contains("white") || n.Contains("hpfillwhite")))
-                {
-                    _hpFillWhite = img;
-                }
-            }
-
-            if (_hpFill == null && images.Length > 0)
-            {
-                _hpFill = images[0];
-            }
-
-            if (_hpFillWhite == null && images.Length > 1)
-            {
-                _hpFillWhite = images[1];
-            }
-        }
     }
 
     private static void EnsureFilled(Image img)

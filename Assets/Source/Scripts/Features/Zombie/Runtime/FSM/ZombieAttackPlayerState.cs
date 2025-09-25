@@ -120,7 +120,7 @@ public sealed class ZombieAttackPlayerState : IZombieState
         if (_target.TryGetComponent<PlayerHealth>(out var dmg))
         {
             dmg.TakeDamage(_damage);
-
+            _self.DamageIndicator.CreateIndicator(_self.transform.position);
             return;
         }
 
@@ -131,7 +131,7 @@ public sealed class ZombieAttackPlayerState : IZombieState
             if (h.TryGetComponent<PlayerHealth>(out var d))
             {
                 d.TakeDamage(_damage);
-
+                _self.DamageIndicator.CreateIndicator(_self.transform.position);
                 break;
             }
         }

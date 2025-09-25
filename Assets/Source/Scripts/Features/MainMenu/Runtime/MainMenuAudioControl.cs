@@ -4,6 +4,7 @@ using UnityEngine;
 public class MainMenuAudioControl : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioSource _loopAudioSource;
 
     [Space]
     [SerializeField] private float _timeToPlayLoopClip = 0.0f;
@@ -29,9 +30,10 @@ public class MainMenuAudioControl : MonoBehaviour
         _audioSource.clip = _introClip;
         _audioSource.Play();
 
-        yield return new WaitForSeconds(_timeToPlayLoopClip);
+        yield return new WaitForSeconds(_timeToPlayLoopClip - 5);
 
-        _audioSource.clip = _loopClip;
-        _audioSource.Play();
+        _loopAudioSource.loop = true;
+        _loopAudioSource.clip = _loopClip;
+        _loopAudioSource.Play();
     }
 }

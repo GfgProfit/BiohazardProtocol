@@ -15,6 +15,11 @@ public sealed class HealthModel
         Current = max;
     }
 
+    public void ResetOnlyMax(int max)
+    {
+        Max = max;
+    }
+
     public bool IsDead => Current <= 0;
 
     public void Heal(int amount)

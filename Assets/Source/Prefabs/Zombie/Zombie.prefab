@@ -1182,7 +1182,8 @@ MonoBehaviour:
   _healthView: {fileID: 1929034273788566175}
   _animator: {fileID: 5215136475916788508}
   _audioPlayer: {fileID: 666748747346468722}
-  _damage: 30
+  _meshGenerator: {fileID: 0}
+  _damage: 50
   _walkSpeed: 2
   _reachRadius: 0.25
   _upperLayerName: UpperLayer

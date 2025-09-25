@@ -5,6 +5,7 @@ public class MoneyManager : IMoney
     public int CurrentMoney { get; set; }
     public Action<int> OnChanged { get; set; }
     public Action OnSpended { get; set; }
+    public Action<int> OnAdded { get; set; }
 
     public MoneyManager(int startMoney)
     {
@@ -33,5 +34,6 @@ public class MoneyManager : IMoney
         CurrentMoney += value;
 
         OnChanged?.Invoke(CurrentMoney);
+        OnAdded?.Invoke(value);
     }
 }

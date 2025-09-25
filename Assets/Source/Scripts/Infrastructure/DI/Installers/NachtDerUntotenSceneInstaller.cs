@@ -2,6 +2,12 @@ using UnityEngine;
 
 public sealed class NachtDerUntotenSceneInstaller : SceneInstaller
 {
+    [Header("Damage Indicator")]
+    [SerializeField] private DamageIndicatorManager _damageIndicator;
+
+    [Header("Game Info")]
+    [SerializeField] private GameInfo _gameInfo;
+
     [Header("Compass")]
     [SerializeField] private Compass _compass;
 
@@ -20,6 +26,8 @@ public sealed class NachtDerUntotenSceneInstaller : SceneInstaller
     {
         container.BindInstance(_compass).AsSingle();
         container.BindInstance(_weaponManager).AsSingle();
+        container.BindInstance(_damageIndicator).AsSingle();
+        container.BindInstance(_gameInfo).AsSingle();
         container.Bind<IZoneService>(_ => new ZoneService()).AsSingle();
         container.Bind<IMoney>(_ => new MoneyManager(_moneyOnStart)).AsSingle();
         container.Bind(_ => new WaveService()).AsSingle();

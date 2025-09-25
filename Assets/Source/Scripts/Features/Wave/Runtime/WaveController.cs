@@ -24,6 +24,7 @@ public sealed class WaveController : MonoBehaviour
     [Inject] private WaveService _waveService;
     [Inject] private IPool<Zombie> _pool;
     [Inject] private IZoneService _zones;
+    [Inject] private GameInfo _gameInfo;
 
     private int _spawnedThisWave;
     private int _aliveZombies;
@@ -92,6 +93,8 @@ public sealed class WaveController : MonoBehaviour
         {
             yield return null;
         }
+
+        _gameInfo.SurvivedWaves++;
 
         _audioSource.PlayOneShot(_waveEndClip);
 

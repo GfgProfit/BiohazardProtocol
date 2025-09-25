@@ -34,4 +34,9 @@ public class AimDetector : MonoBehaviour
             _current?.Focus();
         }
     }
+
+    public void UnFocus()
+    {
+        _current?.Unfocus();
+    }
 }

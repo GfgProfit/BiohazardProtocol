@@ -40,17 +40,14 @@ public class InteractDetector : MonoBehaviour
 
     private void Update()
     {
-        // если глобальный флаг выключен Ц обнул€ем всЄ и выходим
         if (!CanInteract)
         {
-            // снимаем подсветку если была
             if (_previousTarget != null)
             {
                 ToggleOutline(_previousTarget, false);
                 _previousTarget = null;
             }
 
-            // скрываем UI
             if (_promptGroup != null)
             {
                 _promptGroup.alpha = Mathf.MoveTowards(_promptGroup.alpha, 0f, _fadeSpeed * Time.deltaTime);
@@ -61,7 +58,6 @@ public class InteractDetector : MonoBehaviour
             return;
         }
 
-        // если флаг true Ц работаем как обычно
         Detect();
     }
 
@@ -77,7 +73,6 @@ public class InteractDetector : MonoBehaviour
         {
             if (TryGetInteractable(hit.collider, out IInteractable interactable))
             {
-                // провер€ем флаг у самого объекта
                 if (interactable.CanInteract)
                 {
                     _currentTarget = interactable;
@@ -107,7 +102,6 @@ public class InteractDetector : MonoBehaviour
             }
         }
 
-        // обработка взаимодействи€
         if (_currentTarget != null && Input.GetKeyDown(_interactKey))
         {
             _currentTarget.Interact();

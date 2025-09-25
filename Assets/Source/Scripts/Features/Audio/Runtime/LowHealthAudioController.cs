@@ -17,7 +17,15 @@ public class LowHealthAudioController : MonoBehaviour
     private void Update()
     {
         if (_playerHealth.Health == null || _playerHealth.Health.Max <= 0)
+            return;
+
+        if (_playerHealth.Health.IsDead)
         {
+            if (_isLow)
+            {
+                _isLow = false;
+                normalSnapshot.TransitionTo(fadeTime);
+            }
             return;
         }
 
@@ -25,19 +33,13 @@ public class LowHealthAudioController : MonoBehaviour
         bool shouldBeLow = hp01 <= lowHealthThreshold;
 
         if (shouldBeLow == _isLow)
-        {
             return;
-        }
 
         _isLow = shouldBeLow;
 
         if (_isLow)
-        {
             lowHealthSnapshot.TransitionTo(fadeTime);
-        }
         else
-        {
             normalSnapshot.TransitionTo(fadeTime);
-        }
     }
 }

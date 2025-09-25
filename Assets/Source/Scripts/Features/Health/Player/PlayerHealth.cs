@@ -4,33 +4,30 @@ using UnityEngine;
 
 public sealed class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] private PlayerHurtSound _hurtSound;
+
     [SerializeField] private int _maxHealth = 100;
     [SerializeField] private float _regenDelay = 5f;
     [SerializeField] private float _regenRate = 1f;
 
     public HealthModel Health { get; private set; }
     public bool JuggernogActive { get; set; }
+    public Action OnDead;
 
     private Coroutine _regenCoroutine;
     private Coroutine _delayCoroutine;
     private float RegenRate => JuggernogActive ? _regenRate * 2 : _regenRate;
+    private bool _canOnDeath = true;
 
     private void Awake()
     {
         Health = new HealthModel(_maxHealth);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
-        {
-            TEST();
-        }
-    }
-
     public void TakeDamage(int amount)
     {
         Health.Damage(amount);
+        _hurtSound.Hurt();
 
         if (_regenCoroutine != null)
         {
@@ -46,6 +43,12 @@ public sealed class PlayerHealth : MonoBehaviour
         if (!Health.IsDead)
         {
             _delayCoroutine = StartCoroutine(StartRegenDelay());
+        }
+
+        if (Health.IsDead && _canOnDeath)
+        {
+            _canOnDeath = false;
+            OnDead?.Invoke();
         }
     }
 
@@ -75,11 +78,5 @@ public sealed class PlayerHealth : MonoBehaviour
     public void ResetHealth(int newMax)
     {
         Health.Reset(newMax);
-    }
-
-    [ContextMenu("TEST DAMAGE")]
-    public void TEST()
-    {
-        TakeDamage(45);
     }
 }

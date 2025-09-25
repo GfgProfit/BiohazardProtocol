@@ -13,6 +13,7 @@ public class Zombie : PooledBehaviour<Zombie>
     [SerializeField] private ZombieHealthView _healthView;
     [SerializeField] private Animator _animator;
     [SerializeField] private RandomAudioPlayer _audioPlayer;
+    [SerializeField] private ZombieMeshGenerator _meshGenerator;
 
     [Header("Damage")]
     [SerializeField] private int _damage;
@@ -33,10 +34,13 @@ public class Zombie : PooledBehaviour<Zombie>
 
     public NavMeshAgent Agent => _agent;
     public System.Action<Zombie> Died;
+    public DamageIndicatorManager DamageIndicator => _damageIndicator;
 
     [Inject] private HealthModel _health;
     [Inject] private WaveService _waves;
     [Inject] private IMoney _moneyService;
+    [Inject] private DamageIndicatorManager _damageIndicator;
+    [Inject] private GameInfo _gameInfo;
 
     private IZombieState _currentState;
     private ZombieWalkToBarricadeState _walkToBarricadeState;
@@ -67,6 +71,8 @@ public class Zombie : PooledBehaviour<Zombie>
 
         _animator.enabled = true;
         _agent.enabled = true;
+
+        _meshGenerator.GenerateMesh();
 
         if (_waves != null && _health != null)
         {
@@ -360,6 +366,7 @@ public class Zombie : PooledBehaviour<Zombie>
         }
 
         _moneyService.AddMoney(Random.Range(100, 200));
+        _gameInfo.Kills++;
 
         TryReleaseBarricadeSlotIfAny();
         StartCoroutine(WaitReturnToPool());
@@ -412,11 +419,5 @@ public class Zombie : PooledBehaviour<Zombie>
             _agent.Warp(transform.position);
             EnsureOnNavMesh();
         }
-    }
-
-    [ContextMenu("TEST_KILL")]
-    private void TEST_KillMe()
-    {
-        Damage(999999);
     }
 }

@@ -108,7 +108,8 @@ MonoBehaviour:
   - {fileID: -153840292962441260}
   - {fileID: 2724524361543892600}
   - {fileID: -8557363155941218200}
-  m_RendererFeatureMap: ad6b866f10d7b46c5e5f0626d744032e0dfd60511307b8d3d4e7d4911173ddfd68a81b6c8c233e89
+  - {fileID: 911218852651490532}
+  m_RendererFeatureMap: ad6b866f10d7b46c5e5f0626d744032e0dfd60511307b8d3d4e7d4911173ddfd68a81b6c8c233e8978ea43253e62abffe45ceef8b74ca50c
   m_UseNativeRenderPass: 1
   xrSystemData: {fileID: 0}
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
@@ -134,6 +135,29 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 0
+--- !u!114 &911218852651490532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 980a78cc4df543b29a2663be288cd2f5, type: 3}
+  m_Name: UniversalBlurFeature
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  iterations: 4
+  downsample: 2
+  enableMipMaps: 1
+  scale: 1
+  offset: 1
+  scaleBlurWith: 1
+  scaleReferenceSize: 1080
+  blurType: 0
+  injectionPoint: 600
+  shader: {fileID: 4800000, guid: bb11bdc2e8aaf4c80b5315f3778d7ad4, type: 3}
 --- !u!114 &2724524361543892600
 MonoBehaviour:
   m_ObjectHideFlags: 0
