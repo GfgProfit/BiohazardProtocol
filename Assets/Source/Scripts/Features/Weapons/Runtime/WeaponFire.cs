@@ -9,7 +9,7 @@ public sealed class WeaponFire
     private readonly Transform _barrelPoint;
     private readonly WeaponManager _weaponManager;
 
-    private float _lastShotT;
+    private float _lastShot;
 
     public WeaponFire(IWeaponContext context, WeaponEffects effects, WeaponConfig config, Transform barrelPoint, WeaponManager weaponManager)
     {
@@ -22,7 +22,7 @@ public sealed class WeaponFire
 
     public float FireRate => _weaponManager.DoubleTapActive ? _config.FireRate * _weaponManager.DoubleTapFireRateMultiplier : _config.FireRate;
 
-    public bool CanShootNow => Time.time - _lastShotT > 1f / (FireRate / 60f);
+    public bool CanShootNow => Time.time - _lastShot > 1f / (FireRate / 60f);
 
     public bool TryShoot(bool aimHeld, MonoBehaviour host)
     {
@@ -36,7 +36,15 @@ public sealed class WeaponFire
             return false;
         }
 
-        _lastShotT = Time.time;
+        if (_config.FireMode == FireMode.Shotgun && _config.UseTube)
+        {
+            if (_config.Chambered <= 0)
+            {
+                return false;
+            }
+        }
+
+        _lastShot = Time.time;
 
         if (_config.FireMode == FireMode.Shotgun)
         {
@@ -52,7 +60,21 @@ public sealed class WeaponFire
 
         _context.Recoil.Shoot(_config.RecoilPattern.x, _config.RecoilPattern.y, _config.RecoilPattern.z);
 
-        _config.CurrentAmmo--;
+        if (_config.FireMode != FireMode.Shotgun && !_config.UseTube)
+        {
+            _config.CurrentAmmo--;
+        }
+        else
+        {
+            _config.Chambered--;
+
+            if (_config.Tube > 0)
+            {
+                _config.Tube--;
+                _config.Chambered++;
+            }
+        }
+
         _effects.Muzzle(_config.EnableMuzzle, _config.MuzzlePrefabs, _config.MuzzleScaleFactor, _config.MuzzleDestroyTime);
         _effects.PlayOneFrom(_config.ShootSounds);
         _context.Crosshair.Shoot();

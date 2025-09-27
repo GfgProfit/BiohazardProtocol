@@ -236,4 +236,6 @@ public sealed class WaveController : MonoBehaviour
             Gizmos.DrawWireSphere(end, 0.1f);
         }
     }
+
+    public int GetCurrentWaveIndex => _waveService.WaveIndex;
 }

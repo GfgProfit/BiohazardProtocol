@@ -45,19 +45,28 @@ public class WeaponBehaviour : MonoBehaviour
         _context = new WeaponContextAdapter(_weaponManager);
         _effects = new WeaponEffects(_barrelTransform, _animator, _audioSource);
         _fire = new WeaponFire(_context, _effects, _config, _barrelTransform, _weaponManager);
-        _reload = new WeaponReload(_effects, _config, _weaponManager);
+        _reload = new WeaponReload(_effects, _config, _weaponManager, _animator);
     }
 
     private void OnEnable()
     {
         _context.SetAmmoText(BuildAmmoText());
         _effects.PlayOne(_config.EquipSound);
+
+        _reload.OnUpdateText += () => _context.SetAmmoText(BuildAmmoText());
+
         StartCoroutine(SwitchDelay());
+    }
+
+    private void OnDisable()
+    {
+        _reload.OnUpdateText -= () => _context.SetAmmoText(BuildAmmoText());
     }
 
     private void Update()
     {
         _context.Recoil.Tick(_config.RecoilReturnSpeed, _config.RecoilSnappiness);
+        _reload.Tick();
 
         FireTick tick = new(
             fireHeld: Input.GetKey(KeyCode.Mouse0),
@@ -81,7 +90,16 @@ public class WeaponBehaviour : MonoBehaviour
 
         if (_canReload && !_inScope && !_context.Player.IsSprinting)
         {
-            bool wantReload = Input.GetKeyDown(KeyCode.R) || (_config.AvailableAmmo > 0 && _config.CurrentAmmo == 0);
+            bool wantReload = false;
+
+            if (_config.FireMode == FireMode.Semi || _config.FireMode == FireMode.Auto || _config.FireMode == FireMode.Shotgun && !_config.UseTube)
+            {
+                wantReload = Input.GetKeyDown(KeyCode.R) && (_config.AvailableAmmo > 0);
+            }
+            else if (_config.FireMode == FireMode.Shotgun && _config.UseTube)
+            {
+                wantReload = Input.GetKeyDown(KeyCode.R) && (_config.AvailableAmmo > 0);
+            }
 
             if (wantReload && _reload.CanStart(_inScope, _context.Player.IsSprinting))
             {
@@ -174,9 +192,16 @@ public class WeaponBehaviour : MonoBehaviour
         _canSwitch = false;
         _weaponManager.InteractDetector.CanInteract = false;
 
-        yield return _reload.Run(this);
+        if (_config.FireMode == FireMode.Semi || _config.FireMode == FireMode.Auto || _config.FireMode == FireMode.Shotgun && !_config.UseTube)
+        {
+            yield return _reload.Run();
+        }
+        else if (_config.FireMode == FireMode.Shotgun && _config.UseTube)
+        {
+            yield return _reload.ReloadTubeShotgun();
+        }
 
-        _canShoot = _canScope = _canReload = true;
+            _canShoot = _canScope = _canReload = true;
         _isReload = false;
         _context.Switcher.CanSwitch = true;
         _canSwitch = true;
@@ -244,17 +269,45 @@ public class WeaponBehaviour : MonoBehaviour
         _weaponManager.InteractDetector.CanInteract = true;
     }
 
+    public void Tube()
+    {
+        _reload.Tube();
+    }
+
+    public void Chambered()
+    {
+        _reload.Chambered();
+    }
+
     private string BuildAmmoText()
     {
-        string current = _config.CurrentAmmo > 0
-            ? $"<color=#FFE5BF>{Utils.FormatNumber(_config.CurrentAmmo, '.')}</color>\\"
-            : $"<color=#FF0000>{Utils.FormatNumber(Mathf.Max(0, _config.CurrentAmmo), '.')}</color>\\";
+        if (_config.FireMode == FireMode.Semi || _config.FireMode == FireMode.Auto || _config.FireMode == FireMode.Shotgun && !_config.UseTube)
+        {
+            string current = _config.CurrentAmmo > 0
+                ? $"<color=#FFE5BF>{Utils.FormatNumber(_config.CurrentAmmo, '.')}</color>\\"
+                : $"<color=#FF0000>{Utils.FormatNumber(Mathf.Max(0, _config.CurrentAmmo), '.')}</color>\\";
 
-        string available = _config.AvailableAmmo > 0
-            ? $"<size=22><color=#FFFFFF>{Utils.FormatNumber(_config.AvailableAmmo, '.')}</color></size>"
-            : $"<size=22><color=#FF0000>{Utils.FormatNumber(Mathf.Max(0, _config.AvailableAmmo), '.')}</color></size>";
+            string available = _config.AvailableAmmo > 0
+                ? $"<size=22><color=#FFFFFF>{Utils.FormatNumber(_config.AvailableAmmo, '.')}</color></size>"
+                : $"<size=22><color=#FF0000>{Utils.FormatNumber(Mathf.Max(0, _config.AvailableAmmo), '.')}</color></size>";
 
-        return current + available;
+            return current + available;
+        }
+        else if (_config.FireMode == FireMode.Shotgun && _config.UseTube)
+        {
+            string meow = _config.Chambered > 0 ? "+" : string.Empty;
+            string chambered = _config.Chambered > 0 ? $"<color=#FFFFFF>{meow}{_config.Chambered}</color>" : $"<color=#FF0000>{meow}{_config.Chambered}</color>";
+            string tube = _config.Tube > 0 ? $"<color=#FFFFFF>{_config.Tube}</color>" : $"<color=#FF0000>{_config.Tube}</color>";
+            string available = _config.AvailableAmmo > 0
+                ? $"<size=30><color=#FFFFFF>{Utils.FormatNumber(_config.AvailableAmmo, '.')}</color></size>"
+                : $"<size=30><color=#FF0000>{Utils.FormatNumber(Mathf.Max(0, _config.AvailableAmmo), '.')}</color></size>";
+
+            return $"{tube} <size=22>({chambered})</size>\\{available}";
+        }
+        else
+        {
+            return "ERROR";
+        }
     }
 
     private void OnDrawGizmos()

@@ -1,0 +1,144 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb636a7fc9331a74aa02bd074279aa7b, type: 3}
+  m_Name: M249 Weapon Config
+  m_EditorClassIdentifier: 
+  _weaponName: M249 SAW
+  _weaponIcon: {fileID: 21300000, guid: 538c5e9ed297e694ab7f3e64756aed65, type: 3}
+  _fireMode: 1
+  _hitScanMask:
+    serializedVersion: 2
+    m_Bits: 755
+  _weaponDefaultPosition: {x: 0, y: 0, z: 0}
+  _weaponAimingPosition: {x: 0, y: 0, z: 0}
+  _damage: 25
+  _fireRate: 770
+  _shotgunPellets: 8
+  _switchDelay: 0.5
+  _defaultFOV: 60
+  _aimingFOV: 40
+  _aimingSmooth: 10
+  _useTube: 0
+  _tube: 0
+  _chambered: 0
+  _tubeSize: 0
+  _chamberedAnimationTime: 0
+  _reloadAnimationTime: 0
+  _reloadStartAnimationTime: 0
+  _reloadEndAnimationTime: 0
+  _chamberedAnimationName: 
+  _reloadAnimationName: 
+  _reloadEndAnimationName: 
+  _reloadStartAnimationName: 
+  _magSize: 100
+  _currentAmmo: 100
+  _availableAmmo: 100
+  _ammoBoxCount: 100
+  _shootName: Shoot
+  _aimShootName: Aim Shoot
+  _reloadBoolName: Reload
+  _reloadFullBoolName: Reload Full
+  _aimBoolName: Aim
+  _hideName: Hide
+  _reloadTime: 6.467
+  _reloadFullTime: 9.133
+  _emptyMagSound: {fileID: 8300000, guid: 663b3b6ee94948644b2c525346e4f2c7, type: 3}
+  _reloadSound: {fileID: 8300000, guid: 96909478e1d42824c870413d68872743, type: 3}
+  _fullReloadSound: {fileID: 8300000, guid: b38331fa94413e1408d3238157230bdf, type: 3}
+  _equipSound: {fileID: 8300000, guid: a4be69ba1beca55468feb1dbd1293043, type: 3}
+  _hideSound: {fileID: 8300000, guid: b171b307084862d4ca462d0c17fbf10c, type: 3}
+  _shootSounds:
+  - {fileID: 8300000, guid: 07b9689aa2cd03a4080224ad4cd2ba4b, type: 3}
+  - {fileID: 8300000, guid: f96405c2bc3f9784ca9007e3504da869, type: 3}
+  - {fileID: 8300000, guid: f36cdc2f14c94a941a93170c083a0686, type: 3}
+  - {fileID: 8300000, guid: a2f8bf961203f2d41ba0fa0bfa404641, type: 3}
+  - {fileID: 8300000, guid: cffbdf54efaefe04197a69e9e5d1a2e4, type: 3}
+  - {fileID: 8300000, guid: 1539dbf9a81758f45a45816665cc195e, type: 3}
+  - {fileID: 8300000, guid: ab3e28c17ff69c4469311233cf181eb1, type: 3}
+  _enableMuzzle: 1
+  _muzzleScaleFactor: 0.07
+  _muzzleDestroyTime: 2
+  _muzzlePrefabs:
+  - {fileID: 124018, guid: 1f389bb139e76154582cf3c5e4f9214b, type: 3}
+  - {fileID: 146992, guid: 24bc114e4759e464eab5d9664127a034, type: 3}
+  - {fileID: 153266, guid: 39b2a3d1ecfa5614b97e75a9b5561f21, type: 3}
+  - {fileID: 160582, guid: 8ff371e17619a504b9822fc6a2facdb2, type: 3}
+  - {fileID: 183908, guid: fa6d29df930056640bf15fb9b6a54e4a, type: 3}
+  - {fileID: 110062, guid: 30902f8af10daa04cabd79e9ef258f08, type: 3}
+  - {fileID: 179846, guid: a7730127594a3ad46a512f70521a6446, type: 3}
+  - {fileID: 141106, guid: c69a6f3b834888c468f57ec885c39db3, type: 3}
+  - {fileID: 136518, guid: 35277ee4b65d54d4199c4e0e48053745, type: 3}
+  - {fileID: 161002, guid: 489aba68c9dfe9342accb1f3a0be4e5b, type: 3}
+  _recoilPattern: {x: 3, y: 3, z: 2}
+  _recoilSnappiness: 20
+  _recoilReturnSpeed: 5
+  _applySpread: 1
+  _spreadVariance: {x: 0.07, y: 0.07, z: 0.07}
+  _bulletSpeed: 300
+  _widthCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.35
+      inSlope: -0.0011128971
+      outSlope: -0.0011128971
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.4542262
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _duration: 0.1
+  _minVertexDistance: 0.1
+  _trailColor:
+    serializedVersion: 2
+    key0: {r: 1, g: 0.54987025, b: 0, a: 1}
+    key1: {r: 1, g: 0.85065913, b: 0, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  _material: {fileID: 2100000, guid: 654a49237e1c29445848b8ec7050f82e, type: 2}
+  _bulletTrail: {fileID: 7023444368009649142, guid: 6a0ae43a4224be345b7ac917d9e434a5, type: 3}

@@ -44,6 +44,44 @@ public class WeaponConfig : ScriptableObject
     [SerializeField] private float _aimingSmooth = 10;
     public float AimingSmooth => _aimingSmooth;
 
+    [Header("Tube Shotgun")]
+    [SerializeField] private bool _useTube;
+    public bool UseTube => _useTube;
+
+    [SerializeField] private int _tube;
+    public int Tube { get { return _tube; } set { _tube = value; } }
+
+    [SerializeField] private int _chambered;
+    public int Chambered { get { return _chambered; } set { _chambered = value; } }
+    
+    [SerializeField] private int _tubeSize;
+    public int TubeSize => _tubeSize;
+
+    [SerializeField] private float _chamberedAnimationTime;
+    public float ChamberedAnimationTime => _chamberedAnimationTime;
+
+    [SerializeField] private float _reloadAnimationTime;
+    public float ReloadAnimationTime => _reloadAnimationTime;
+
+    [SerializeField] private float _reloadStartAnimationTime;
+    public float ReloadStartAnimationTime => _chamberedAnimationTime;
+
+    [SerializeField] private float _reloadEndAnimationTime;
+    public float ReloadEndAnimationTime => _reloadEndAnimationTime;
+
+    [SerializeField] private string _chamberedAnimationName;
+    public string ChamberedAnimationName => _chamberedAnimationName;
+
+    [SerializeField] private string _reloadAnimationName;
+    public string ReloadAnimationName => _reloadAnimationName;
+
+    [SerializeField] private string _reloadEndAnimationName;
+    public string ReloadEndAnimationName => _reloadEndAnimationName;
+
+    [SerializeField] private string _reloadStartAnimationName;
+    public string ReloadStartAnimationName => _reloadStartAnimationName;
+
+
     [Header("Ammo")]
     [SerializeField, Range(0, 200)] private int _magSize = 30;
     public int MagSize { get { return _magSize; } set { _magSize = value; } }

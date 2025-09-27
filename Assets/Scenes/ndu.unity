@@ -220,6 +220,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1490530}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 552786740}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -922,6 +926,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 98861490}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1362910383}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -1026,6 +1034,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 105321703}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 552786740}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -7195,6 +7207,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 267534442}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1362910383}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -8164,6 +8180,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 332223477}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1467824779}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -8722,6 +8742,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 363946790}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1362910383}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -14902,6 +14926,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 494912049}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 880365208}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -15544,6 +15572,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 539216866}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 880365208}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -15838,6 +15870,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 552892516}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 153018706}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -16089,8 +16125,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 608595057}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.059431307, y: -0.44125992, z: 0.029303683, w: -0.89492947}
-  m_LocalPosition: {x: -6.935813, y: 4.3263187, z: 10.811486}
+  m_LocalRotation: {x: -0.0052614217, y: 0.98742235, z: -0.03379466, w: -0.15436111}
+  m_LocalPosition: {x: 3.5673788, y: 1.4768454, z: -3.9398682}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18668,6 +18704,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 784644207}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1467824779}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -19061,6 +19101,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 824684161}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 552786740}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -20864,6 +20908,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 995105972}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 742109713}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -21852,6 +21900,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1116881448}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 153018706}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -22425,6 +22477,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1169115367}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 742109713}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -23992,6 +24048,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1290822908}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 552786740}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -24648,6 +24708,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1342503968}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 880365208}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -32157,6 +32221,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1586547688}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 153018706}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -33067,6 +33135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1681872493}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 742109713}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -33662,6 +33734,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1734951721}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 742109713}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -34558,6 +34634,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1874975201}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1362910383}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -35678,6 +35758,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 2000896630}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 153018706}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -36200,6 +36284,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 2052017721}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 880365208}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -36588,6 +36676,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 2076662493}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1467824779}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -37380,6 +37472,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 2123277434}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 1467824779}
   _breakSfx: {fileID: 8300000, guid: 5c25341595004ff41834e73ae5b31124, type: 3}
@@ -80716,6 +80812,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1886075765645661}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 2032602801}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -88077,6 +88177,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1390090575557191}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 2032602801}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -88102,6 +88206,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1390090333130297}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 2032602801}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -88378,6 +88486,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _disableOnBreak:
   - {fileID: 1138131716050748}
+  _selfLocalRepairedRotation: {x: 0, y: 0, z: 0, w: 0}
+  _selfLocalRepairedPosition: {x: 0, y: 0, z: 0}
+  _brokenPoint: {fileID: 0}
+  _upPoint: {fileID: 0}
   _breakVfx: {fileID: 0}
   _audioSource: {fileID: 2032602801}
   _breakSfx: {fileID: 8300000, guid: a3e0da30615416e4fba779d562099d60, type: 3}
@@ -119959,7 +120071,6 @@ GameObject:
   - component: {fileID: 6706779347280105452}
   - component: {fileID: 6716481258867074334}
   - component: {fileID: 6731105971231430761}
-  - component: {fileID: 6731105971231430762}
   - component: {fileID: 6731105971231430763}
   m_Layer: 0
   m_Name: Ammo Box
@@ -120004,21 +120115,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.4594555, y: 1.4462914, z: 0.81936765}
   m_Center: {x: 0.0000012218952, y: 0.70345235, z: 0.0000012218952}
---- !u!114 &6731105971231430762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6729153905714675586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20016db6d5a62cf4ebe5bbe3baf044b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _zoneName: Buy Ammo - {0}
-  _money: 2000
-  _canInteract: 1
 --- !u!114 &6731105971231430763
 MonoBehaviour:
   m_ObjectHideFlags: 2
